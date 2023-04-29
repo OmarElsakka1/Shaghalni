@@ -71,3 +71,14 @@ def post_job():
         return redirect(url_for('views.browse_jobs'))
     else:
         return render_template('post_job.html' , user =  current_user)
+
+
+
+@views.route('/changeprofile', methods=['GET', 'POST'])
+@login_required
+def change_profile():
+    dropdown_options = ['Freelancer', 'Business Owner', 'Both']
+     
+    return render_template('change_profile.html',user=current_user, dropdown_options = dropdown_options)
+
+
