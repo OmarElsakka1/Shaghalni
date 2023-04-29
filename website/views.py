@@ -1,3 +1,4 @@
+from datetime import datetime
 from flask import Blueprint, render_template, request, flash, jsonify , redirect , url_for
 from flask_login import login_required, current_user
 from .models import *
@@ -56,3 +57,17 @@ def apply_job():
     jobs = Job.query.all()
     return "not yet"
 
+
+@views.route('/post-job', methods=['GET', 'POST'])
+def post_job():
+    if request.method == 'POST':
+        job_name = request.form['job_name']
+        job_description = request.form['job_description']
+        job_date_str = request.form['job_date']
+        job_date = datetime.strptime(job_date_str ,'%Y-%m-%dT%H:%M')
+        job = Job(job_name=job_name, job_description=job_description, job_date=job_date)
+        db.session.add(job)
+        db.session.commit()
+        return redirect(url_for('views.browse_jobs'))
+    else:
+        return render_template('post_job.html' , user =  current_user)
