@@ -1,15 +1,20 @@
-from flask import Blueprint, render_template, request, flash, jsonify
+from flask import Blueprint, render_template, request, flash, jsonify , redirect , url_for
 from flask_login import login_required, current_user
-from .models import Note
+from .models import *
 from . import db
 import json
 
 views = Blueprint('views', __name__)
 
-
 @views.route('/', methods=['GET', 'POST'])
 @login_required
 def home():
+    # redirect tp jobs
+    return redirect(url_for('views.browse_jobs'))
+
+@views.route('/notes', methods=['GET', 'POST'])
+@login_required
+def notes():
     if request.method == 'POST': 
         note = request.form.get('note')#Gets the note from the HTML 
 
@@ -35,3 +40,19 @@ def delete_note():
             db.session.commit()
 
     return jsonify({})
+
+@views.route('/browse-jobs' , methods = ['GET' , 'POST'] )
+@login_required
+def browse_jobs():
+    # get all jops from db
+    jobs = Job.query.all()
+    return render_template("browse_jobs.html" ,user=current_user ,jobs = jobs )
+
+
+@views.route('/apply-job' , methods = ['GET' , 'POST'] )
+@login_required
+def apply_job():
+    # get all jops from db
+    jobs = Job.query.all()
+    return "not yet"
+

@@ -1,0 +1,52 @@
+{% extends "base.html" %} {% block title %} Browse jobs {% endblock %} {% block
+    content %}
+    <head>
+        <title>List of Jobs</title>
+        <style>
+          .job-box {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 20px;
+          }
+    
+          .job-box h2 {
+            font-size: 20px;
+            margin-top: 0;
+          }
+    
+          .job-box p {
+            margin-bottom: 10px;
+          }
+    
+          .apply-btn {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+          }
+    
+          .apply-btn:hover {
+            background-color: #3e8e41;
+          }
+        </style>
+      </head>
+      <body>
+        <h1>List of Jobs</h1>
+        {% for job in jobs %}
+        <div class="job-box">
+          <h2>{{ job.job_name }}</h2>
+          <p>{{ job.job_description }}</p>
+          <p>{{ job.job_date.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+          <a class="apply-btn" href="">Apply</a>
+        </div>
+        {% endfor %}
+      </body>
+{% endblock %}
+    
