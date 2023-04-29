@@ -65,7 +65,7 @@ def post_job():
         job_description = request.form['job_description']
         job_date_str = request.form['job_date']
         job_date = datetime.strptime(job_date_str ,'%Y-%m-%dT%H:%M')
-        job = Job(job_name=job_name, job_description=job_description, job_date=job_date)
+        job = Job(job_name=job_name, job_description=job_description, job_date=job_date , user_id = current_user.id)
         db.session.add(job)
         db.session.commit()
         return redirect(url_for('views.browse_jobs'))
