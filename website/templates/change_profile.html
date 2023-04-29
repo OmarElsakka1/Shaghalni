@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Change Profile{% endblock %}
+
+{% block content %}
+  <h1>Change Profile</h1>
+  <form method="post">
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input type="text" class="form-control" id="username" name="username" value="{{ current_user.username }}" required>
+    </div>
+
+    <div class="form-group">
+      <label for="password">Old Password</label>
+      <input type="password" class="form-control" id="old_password" name="old_password" required>
+    </div>
+    
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input type="password" class="form-control" id="password" name="password" required>
+    </div>
+    <div class="form-group">
+      <label for="confirm_password">Confirm Password</label>
+      <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+    </div>
+    <div class="form-group">
+      <label for="job_description">Job Description</label>
+      <textarea class="form-control" id="job_description" name="job_description">{{ current_user.job_description }}</textarea>
+    </div>
+    
+    <div class="form-group">
+      <label for="dropdown">Select a Category:</label>
+      <select class="form-control" id="dropdown">
+        {% for option in dropdown_options %}
+        <option>{{ option }}</option>
+        {% endfor %}
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+  </form>
+{% endblock %}
