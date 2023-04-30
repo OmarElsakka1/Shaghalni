@@ -37,11 +37,15 @@ def logout():
 
 @auth.route('/sign-up', methods=['GET', 'POST'])
 def sign_up():
+    dropdown_options = ['Freelancer', 'Business Owner', 'Both']
     if request.method == 'POST':
         email = request.form.get('email')
         first_name = request.form.get('firstName')
+        last_name = request.form.get('lastName')
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
+        job_des = request.form.get('job_description')
+        category = request.form.get('category')
 
         user = User.query.filter_by(email=email).first()
         if user:
@@ -55,12 +59,83 @@ def sign_up():
         elif len(password1) < 7:
             flash('Password must be at least 7 characters.', category='error')
         else:
-            new_user = User(email=email, first_name=first_name, password=generate_password_hash(
-                password1, method='sha256'))
+            new_user = User(email=email, first_name=first_name, last_name = last_name,
+                password=generate_password_hash(password1, method='sha256'), job_des = job_des, category = category)
             db.session.add(new_user)
+            #new_user.email = "new_email@example.com"
+            #db.session.add(new_user)
             db.session.commit()
             login_user(new_user, remember=True)
             flash('Account created!', category='success')
             return redirect(url_for('views.home'))
 
-    return render_template("sign_up.html", user=current_user)
+    return render_template("sign_up.html", user=current_user, dropdown_options = dropdown_options)
+
+
+
+@auth.route('/changeprofile', methods=['GET', 'POST'])
+@login_required
+def change_profile():
+    dropdown_options = ['Freelancer', 'Business Owner', 'Both']
+    if request.method == 'POST':
+        email = request.form.get('email')
+        first_name = request.form.get('firstName')
+        last_name = request.form.get('lastName')
+        job_des = request.form.get('job_description')
+        #category = request.form.get('category')
+
+        user = User.query.filter_by(id=current_user.id).first()
+        if len(email) < 4:
+            flash('Email must be greater than 3 characters.', category='error')
+        elif (email != current_user.email) and not (User.query.filter_by(email=email).first()):
+            user.email = email
+            db.session.commit()
+            flash('Email changed Successfully.', category='success')
+        else:
+            pass
+            #flash('Email already has account. Choose another email.', category='error')
+        if len(first_name) < 2:
+            flash('First name must be greater than 1 character.', category='error')
+        elif first_name != current_user.first_name:
+            user.first_name = first_name
+            db.session.commit()
+            flash('First name changed Successfully.', category='success')
+        if len(last_name) < 2:
+            flash('Last name must be greater than 1 character.', category='error')
+
+        elif last_name != current_user.last_name:
+            user.last_name = last_name
+            db.session.commit()
+            flash('Last name changed Successfully.', category='success')
+        if len(job_des) < 4:
+            flash('Job Description should be greater than 3 characters.', category='error')
+        elif(job_des != current_user.job_des):
+            flash('Job Description updated Successfully.', category='success')
+        return redirect(url_for('auth.change_profile'))
+    return render_template("change_profile.html", user=current_user, dropdown_options = dropdown_options)
+
+
+@auth.route('/changepassword', methods=['GET', 'POST'])
+@login_required
+def change_password():
+    if request.method == 'POST':
+        email = current_user.email
+        password = request.form.get('password')
+        password1 = request.form.get('password1')
+        password2 = request.form.get('password2')
+
+        user = User.query.filter_by(id=current_user.id).first()
+        if not check_password_hash(user.password, password):
+            flash('Old Password is wrong.', category='error')
+        elif password1 != password2:
+            flash('Passwords don\'t match.', category='error')
+        elif len(password1) < 7:
+            flash('Password must be at least 7 characters.', category='error')
+        else:
+            new_password_hash = generate_password_hash(password1)
+            user.password = new_password_hash
+            db.session.commit()
+            flash('Password Changed!', category='success')
+            return redirect(url_for('auth.change_password'))
+
+    return render_template("change_password.html", user=current_user)
