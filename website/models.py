@@ -15,12 +15,13 @@ class Note(db.Model):
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(150), unique=True)
-    password = db.Column(db.String(150))
-    first_name = db.Column(db.String(50))
-    last_name = db.Column(db.String(50))
+    password = db.Column(db.String(150), nullable=False)
+    first_name = db.Column(db.String(50), nullable=False)
+    last_name = db.Column(db.String(50), nullable=False)
+    gender = db.Column(db.String(10), nullable=False)
+    usertype = db.Column(db.String(10), nullable=False)
     job_des = db.column(db.String(400))
-    category = db.column(db.String(150))
-    notes = db.relationship('Note')
+    #notes = db.relationship('Note')
 
 class Job(db.Model):
     id = db.Column(db.Integer, primary_key=True)

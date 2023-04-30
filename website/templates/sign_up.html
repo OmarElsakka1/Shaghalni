@@ -67,11 +67,22 @@ content %}
   </div>
 
   <div class="form-group">
-    <label for="category">Select a Category:</label>
-    <select class="form-control" id="category">
-      {% for option in dropdown_options %}
-      <option>{{ option }}</option>
-      {% endfor %}
+    <label for="gender">Gender</label>
+    <select class="form-control" id="gender" name="gender">
+      <option value="">Choose...</option>
+      <option value="Male">Male</option>
+      <option value="Female">Female</option>
+      <option value="Other">Other</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="usertype">User Type</label>
+    <select class="form-control" id="usertype" name="usertype">
+      <option value="">Choose...</option>
+      <option value="Freelancer">Freelancer</option>
+      <option value="Business Owner">Business Owner</option>
+      <option value="Both">Both</option>
     </select>
   </div>
 
