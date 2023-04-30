@@ -58,9 +58,11 @@ def sign_up():
             flash('Passwords don\'t match.', category='error')
         elif len(password1) < 7:
             flash('Password must be at least 7 characters.', category='error')
+        elif len(job_des) < 4:
+            flash('Job Description should be greater than 3 characters.', category='error')
         else:
             new_user = User(email=email, first_name=first_name, last_name = last_name,
-                password=generate_password_hash(password1, method='sha256'), job_des = job_des, category = category)
+                 job_des = job_des, category = category, password=generate_password_hash(password1, method='sha256'))
             db.session.add(new_user)
             #new_user.email = "new_email@example.com"
             #db.session.add(new_user)
@@ -110,6 +112,8 @@ def change_profile():
         if len(job_des) < 4:
             flash('Job Description should be greater than 3 characters.', category='error')
         elif(job_des != current_user.job_des):
+            user.job_des = job_des
+            db.session.commit()
             flash('Job Description updated Successfully.', category='success')
         return redirect(url_for('auth.change_profile'))
     return render_template("change_profile.html", user=current_user, dropdown_options = dropdown_options)
