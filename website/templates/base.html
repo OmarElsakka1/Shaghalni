@@ -34,6 +34,7 @@
           <a class="nav-item nav-link" id="browse-jobs" href= "{{ url_for('views.browse_jobs') }}" >Browse jobs</a>
           <a class="nav-item nav-link" id="post-jop" href= "{{ url_for('views.post_job') }}" >Post jobs</a>
           <a class="nav-item nav-link" id="changeprofile" href="/changeprofile">Change Profile</a>
+          <a class="nav-item nav-link" id="changepassword" href="/changepassword">Change Password</a>
           <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
           {% else %}
           <a class="nav-item nav-link" id="login" href="/login">Login</a>
@@ -92,4 +93,3 @@
 {% endblock %}
   </body>
 </html>
-
