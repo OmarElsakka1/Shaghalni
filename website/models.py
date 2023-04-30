@@ -18,7 +18,7 @@ class User(db.Model, UserMixin):
     password = db.Column(db.String(150))
     first_name = db.Column(db.String(50))
     last_name = db.Column(db.String(50))
-    job_des = db.column(db.String(2000))
+    job_des = db.column(db.String(400))
     category = db.column(db.String(150))
     notes = db.relationship('Note')
 
