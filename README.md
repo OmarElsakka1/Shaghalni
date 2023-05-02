@@ -26,3 +26,6 @@ This is a freelancing platform built using Flask.
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
+
+## How to run it 
+Just you can do it by running the main.py and open the website link.
