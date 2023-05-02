@@ -3,7 +3,10 @@ from .models import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from . import db   ##means from __init__.py import db
 from flask_login import login_user, login_required, logout_user, current_user
-
+from .helpers import check_email
+from flask_wtf.file import FileField, FileRequired
+import os
+from werkzeug.utils import secure_filename
 
 
 auth = Blueprint('auth', __name__)
@@ -36,6 +39,7 @@ def logout():
     return redirect(url_for('auth.login'))
 
 
+
 @auth.route('/sign-up', methods=['GET', 'POST'])
 def sign_up():
     dropdown_options = ['Freelancer', 'Business Owner', 'Both']
@@ -53,8 +57,8 @@ def sign_up():
         user = User.query.filter_by(email=email).first()
         if user:
             flash('Email already exists.', category='error')
-        elif len(email) < 4:
-            flash('Email must be greater than 3 characters.', category='error')
+        elif not check_email(email):
+            flash('Email has Invalid format.', category='error')
         elif len(first_name) < 2:
             flash('First name must be greater than 1 character.', category='error')
         elif password1 != password2:
@@ -93,6 +97,8 @@ def change_profile():
         gender = request.form['gender']
         usertype = request.form['usertype']
         job_des = request.form.get('job_description')
+        file = request.files.get('Image')
+        #file = FileField('Image', validators=[FileRequired()]) 
 
         user = User.query.filter_by(id=current_user.id).first()
         if len(email) == 0:
@@ -139,6 +145,27 @@ def change_profile():
             user.usertype = usertype
             db.session.commit()
             flash('User Type updated Successfully.', category='success')
+
+        if 'Image' not in request.files:
+            flash('No file part', category='error')
+            return redirect(request.url)
+        file = request.files['Image']
+        # if user does not select file, browser also
+        # submit an empty part without filename
+        if file.filename == '':
+            flash('No selected file', category='error')
+            return redirect(request.url)
+        if file:
+            filename = secure_filename(file.filename)
+            #file.save(os.path.join(auth.config['UPLOAD_FOLDER'], filename))
+            flash('File uploaded successfully')
+
+        if((current_user.image != None) and (file != current_user.image)) or (file != None):  # need more conditions to make sure (Image, not empty)
+            user.image = file
+            db.session.commit()
+            flash('Image updated Successfully.', category='success')
+        print("file is ")
+        print(file)
         return redirect(url_for('auth.change_profile'))
     return render_template("change_profile.html", user=current_user, dropdown_options = dropdown_options)
 
