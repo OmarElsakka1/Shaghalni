@@ -80,6 +80,13 @@ def post_job():
     return render_template('post_job.html' ,user = current_user)
 
 
+@views.route('/view_profile/<int:user_id>', methods=['GET', 'POST'])
+@login_required
+def view_profile(user_id):
+    user = User.query.get_or_404(user_id)
+    return render_template('view_profile.html', user=current_user , target_user = user)
+
+
 '''
 @views.route('/changeprofile', methods=['GET', 'POST'])
 @login_required

@@ -24,7 +24,7 @@ class User(db.Model, UserMixin):
     last_name = db.Column(db.String(50), nullable=False)
     gender = db.Column(db.String(10), nullable=False)
     usertype = db.Column(db.String(10), nullable=False)
-    job_des = db.Column(db.String(400)  )
+    job_des = db.Column(db.String(400) ,nullable = False )
     jobs = db.relationship('Job' , backref='user')
 
 

@@ -1,0 +1,21 @@
+{% extends "base.html" %} {% block title %} Browse jobs {% endblock %} {% block
+    content %}
+
+    <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{ target_user.first_name }} {{ target_user.last_name }}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">{{ target_user.email }}</h6>
+          <p class="card-text">{{ target_user.job_des }}</p>
+          <p class="card-text">{{ target_user.gender }}</p>
+          <p class="card-text">{{ target_user.usertype }}</p>
+          <h6 class="card-subtitle mb-2 text-muted">Jobs:</h6>
+          <ul class="list-group">
+            {% for job in target_user.jobs %}
+              <li class="list-group-item">{{ job.title }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+
+
+{% endblock %}
