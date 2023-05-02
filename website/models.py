@@ -1,5 +1,7 @@
 from flask_login import UserMixin
 from sqlalchemy.sql import func
+from sqlalchemy import Column, Numeric
+
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
@@ -20,12 +22,15 @@ class User(db.Model, UserMixin):
     last_name = db.Column(db.String(50), nullable=False)
     gender = db.Column(db.String(10), nullable=False)
     usertype = db.Column(db.String(10), nullable=False)
-    job_des = db.column(db.String(400))
-    #notes = db.relationship('Note')
+    job_des = db.Column(db.String(400)  )
+
 
 class Job(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    job_name = db.Column(db.String(150))
-    job_description = db.Column(db.String(1000))
-    job_date = db.Column(db.DateTime(timezone=True), default=func.now())
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    job_name = db.Column(db.String(150) , nullable =False)
+    job_payement = Column(Numeric(10, 2), nullable=False)
+    job_description = db.Column(db.String(1000) , nullable =False)
+    job_date = db.Column(db.DateTime(timezone=True), default=func.now() ,nullable =False)
+    job_deadline = db.Column(db.DateTime(timezone=True), nullable =False )
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id') , nullable =False)
+    user = db.relationship('User', backref='jobs')  # define the relationship

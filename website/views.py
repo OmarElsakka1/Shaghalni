@@ -60,6 +60,7 @@ def apply_job():
 
 @views.route('/post-job', methods=['GET', 'POST'])
 def post_job():
+    
     if request.method == 'POST':
         job_name = request.form['job_name']
         job_description = request.form['job_description']
