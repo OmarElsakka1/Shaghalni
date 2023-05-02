@@ -2,6 +2,8 @@ from flask_login import UserMixin
 from sqlalchemy.sql import func
 from sqlalchemy import Column, Numeric
 
+from sqlalchemy import Column, Numeric
+
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()

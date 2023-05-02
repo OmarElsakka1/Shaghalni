@@ -64,6 +64,7 @@ def apply_job(job_id):
 @views.route('/post_job', methods=['GET', 'POST'])
 @login_required
 def post_job():
+    
     if request.method == 'POST':
         job_name = request.form['job_name']
         job_description = request.form['job_description']
