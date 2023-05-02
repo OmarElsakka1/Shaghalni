@@ -23,14 +23,15 @@ class User(db.Model, UserMixin):
     gender = db.Column(db.String(10), nullable=False)
     usertype = db.Column(db.String(10), nullable=False)
     job_des = db.Column(db.String(400)  )
+    jobs = db.relationship('Job' , backref='user')
 
 
 class Job(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     job_name = db.Column(db.String(150) , nullable =False)
-    job_payement = Column(Numeric(10, 2), nullable=False)
+    job_payment = db.Column(db.Numeric(10, 2), nullable=False)
     job_description = db.Column(db.String(1000) , nullable =False)
     job_date = db.Column(db.DateTime(timezone=True), default=func.now() ,nullable =False)
     job_deadline = db.Column(db.DateTime(timezone=True), nullable =False )
     user_id = db.Column(db.Integer, db.ForeignKey('user.id') , nullable =False)
-    user = db.relationship('User', backref='jobs')  # define the relationship
+

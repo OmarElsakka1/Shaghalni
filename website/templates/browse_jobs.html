@@ -1,52 +1,33 @@
 {% extends "base.html" %} {% block title %} Browse jobs {% endblock %} {% block
     content %}
     <head>
-        <title>List of Jobs</title>
-        <style>
-          .job-box {
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            padding: 10px;
-            margin-bottom: 20px;
-          }
-    
-          .job-box h2 {
-            font-size: 20px;
-            margin-top: 0;
-          }
-    
-          .job-box p {
-            margin-bottom: 10px;
-          }
-    
-          .apply-btn {
-            background-color: #4CAF50;
-            border: none;
-            color: white;
-            padding: 10px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            font-size: 16px;
-            border-radius: 5px;
-            cursor: pointer;
-          }
-    
-          .apply-btn:hover {
-            background-color: #3e8e41;
-          }
-        </style>
-      </head>
-      <body>
-        <h1>List of Jobs</h1>
-        {% for job in jobs %}
-        <div class="job-box">
-          <h2>{{ job.job_name }}</h2>
-          <p>{{ job.job_description }}</p>
-          <p>{{ job.job_date.strftime('%Y-%m-%d %H:%M:%S') }}</p>
-          <a class="apply-btn" href="">Apply</a>
+      <title>Job List</title>
+    </head>
+    <body>
+      <div class="container">
+        <h1 class="text-center my-5">Job List</h1>
+        <div class="row">
+          {% for job in jobs %}
+          <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">{{ job.job_name }}</h5>
+                <p class="card-text">{{ job.job_description }}</p>
+                <ul class="list-unstyled">
+                  <li><strong>Payment:</strong>  {{ "$%.2f"|format(job.job_payment) }}</li>
+                  <li><strong>Date:</strong> {{ job.job_date }}</li>
+                  <li><strong>Deadline:</strong> {{ job.job_deadline }}</li>
+                  <li><strong>User:</strong> {{ job.user.first_name }} {{ job.user.last_name }}</li>
+                </ul>
+                <form action="{{ url_for('views.apply_job', job_id=job.id) }}" method="POST">
+                  <button type="submit" class="btn btn-primary">Apply</button>
+                </form>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
         </div>
-        {% endfor %}
-      </body>
+      </div>
+    </body>
 {% endblock %}
     

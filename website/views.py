@@ -47,31 +47,36 @@ def delete_note():
 def browse_jobs():
     # get all jops from db
     jobs = Job.query.all()
+    for job in jobs :
+        print(type(job.job_payment) )
     return render_template("browse_jobs.html" ,user=current_user ,jobs = jobs )
 
 
-@views.route('/apply-job' , methods = ['GET' , 'POST'] )
+@views.route('/jobs/<int:job_id>/apply', methods=['POST'])
 @login_required
-def apply_job():
-    # get all jops from db
-    jobs = Job.query.all()
-    return "not yet"
+def apply_job(job_id):
+    job = Job.query.get_or_404(job_id)
+    print(f"Applied to job with id {job_id}")
+    return redirect(url_for('views.browse_jobs'))
 
 
-@views.route('/post-job', methods=['GET', 'POST'])
+
+@views.route('/post_job', methods=['GET', 'POST'])
+@login_required
 def post_job():
-    
     if request.method == 'POST':
         job_name = request.form['job_name']
         job_description = request.form['job_description']
-        job_date_str = request.form['job_date']
-        job_date = datetime.strptime(job_date_str ,'%Y-%m-%dT%H:%M')
-        job = Job(job_name=job_name, job_description=job_description, job_date=job_date , user_id = current_user.id)
+        job_payment = request.form['job_payment']
+
+        job_deadline = request.form['job_deadline']
+        job_deadline = datetime.strptime(job_deadline, '%Y-%m-%d' )
+        job = Job(job_name=job_name, job_description=job_description, job_payment=job_payment,  job_deadline=job_deadline, user=current_user)
         db.session.add(job)
         db.session.commit()
+        flash('Your job has been posted!', 'success')
         return redirect(url_for('views.browse_jobs'))
-    else:
-        return render_template('post_job.html' , user =  current_user)
+    return render_template('post_job.html' ,user = current_user)
 
 
 '''
