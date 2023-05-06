@@ -4,7 +4,9 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from . import db   ##means from __init__.py import db
 from flask_login import login_user, login_required, logout_user, current_user
 from .helpers import check_email
+
 from flask_wtf.file import FileField, FileRequired
+
 import os
 from werkzeug.utils import secure_filename
 

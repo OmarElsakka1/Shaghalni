@@ -29,13 +29,14 @@ def populate_database():
         ]
         db.session.add_all(owner1_jobs + owner2_jobs)
         db.session.commit()
+        print('Database populated successfully.')
     except :
         db.session.rollback()
         print('Database already populated.')
 
     
 
-    print('Database populated successfully.')
+    
 
   
   
