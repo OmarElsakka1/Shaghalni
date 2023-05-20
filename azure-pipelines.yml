@@ -20,4 +20,16 @@ stages:
         echo we will do unit tests here
       displayName: 'Build Docker image for unit tests'
 
+- stage: build-push
+  displayName: 'Build and push to docker hub'
+  jobs:
+  - job : build-push
+    steps:
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'MyDocker'
+        repository: 'ezzat12 / shaghalni'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile.deploy'
+
     
