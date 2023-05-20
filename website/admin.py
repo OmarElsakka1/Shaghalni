@@ -14,6 +14,7 @@ import matplotlib.pyplot as plt
 
 admin = Blueprint('admin', __name__)
 
+
 @admin.route('/admin')
 def func():
     return redirect(url_for('admin.login'))
