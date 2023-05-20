@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Change Profile{% endblock %}
+
+{% block content %}
+  <h1>Change Profile</h1>
+  <form method="POST" enctype="multipart/form-data">
+
+    <div class="form-group">
+      <img src="{{ url_for('auth.get_image', user_id=current_user.id) }}" alt="Profile Image" width="200" height="200">
+    </div>
+    
+    <div class="form-group">
+      <label for="email">Email: {{ current_user.email }}</label>
+      <input type="text" class="form-control" id="email" name="email" value="{{ current_user.email }}">
+    </div>
+
+    <div class="form-group">
+      <label for="firstName">First Name: {{ current_user.first_name }}</label>
+      <input type="text" class="form-control" id="firstName" name="firstName" value="{{ current_user.firstName }}">
+    </div>
+
+    <div class="form-group">
+      <label for="lastName">Last Name: {{ current_user.last_name }}</label>
+      <input type="text" class="form-control" id="lastName" name="lastName" value="{{ current_user.lastName }}">
+    </div>
+
+    <div class="form-group">
+      <label for="job_description">Job Description: {{ current_user.job_des }}</label>
+      <input type="text" class="form-control" id="job_description" name="job_description" value="{{ current_user.lastName }}">
+    </div>
+
+    <!--div class="form-group">
+      <label for="job_description">Job Description:</label>
+      <textarea class="form-control" id="job_description" name="job_description" value ="{{ current_user.job_description }}" required> </textarea>
+    </div-->
+
+    <div class="form-group">
+      <label for="gender">Gender: {{ current_user.gender }}</label>
+      <select class="form-control" id="gender" name="gender">
+        <option value="">Choose...</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select>
+    </div>
+  
+    <div class="form-group">
+      <label for="usertype">User Type: {{ current_user.usertype }} </label>
+      <select class="form-control" id="usertype" name="usertype">
+        <option value="">Choose...</option>
+        <option value="Freelancer">Freelancer</option>
+        <option value="Business Owner">Business Owner</option>
+        <option value="Both">Both</option>
+      </select>
+    </div>
+
+    <!--div class="form-group">
+      <label for="Image">Profile Picture: </label>
+      <input type="file" class="form-control-file" id="Image" name="Image">
+    </div-->
+    <div class="form-group">
+      <label class="form-control-label">Profile Image</label>
+      <input type="file" name="file">
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">Save</button>
+  </form>
+{% endblock %}

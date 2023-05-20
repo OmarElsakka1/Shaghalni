@@ -1,0 +1,29 @@
+{% extends "Admin_base.html" %}
+
+{% block title %}User List{% endblock %}
+
+{% block content %}
+<h1>User List</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>UserName</th>
+            <th>Gender</th>
+            <th>User Type</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for client in users %}
+        <tr>
+            <td>{{ client.id }}</td>
+            <td>{{ client.first_name +" "+ client.last_name }}</td>
+            <td>{{ client.gender }}</td>
+            <td>{{ client.usertype }}</td>
+            <td>{{ client.email }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

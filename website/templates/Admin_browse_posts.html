@@ -1,0 +1,33 @@
+{% extends "Admin_base.html" %} {% block title %} Browse jobs {% endblock %} {% block
+    content %}
+    <head>
+      <title>Browse Posts</title>
+    </head>
+    <body>
+      <div class="container">
+        <h1 class="text-center my-5">Browse Posts</h1>
+        <div class="row">
+          {% for job in jobs %}
+          <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title">{{ job.job_name }}</h5>
+                <p class="card-text">{{ job.job_description }}</p>
+                <ul class="list-unstyled">
+                  <li><strong>Payment:</strong>  {{ "$%.2f"|format(job.job_payment) }}</li>
+                  <li><strong>Date:</strong> {{ job.job_date }}</li>
+                  <li><strong>Deadline:</strong> {{ job.job_deadline }}</li>
+                  <li><strong>User:</strong> {{ job.user.first_name }} {{ job.user.last_name }}</li>
+                </ul>
+                <form action="{{ url_for('views.apply_job', job_id=job.id) }}" method="POST">
+                  <button type="submit" class="btn btn-primary">Apply</button>
+                </form>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </body>
+{% endblock %}
+    

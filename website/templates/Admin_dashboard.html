@@ -1,0 +1,89 @@
+{% extends "Admin_base.html" %}
+
+{% block title %}User List{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+  <h1>User List</h1>
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Gender Counts</h3>
+        </div>
+        <div class="card-body">
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>Gender</th>
+                <th>Count</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for index, row in gender_counts_df.iterrows() %}
+              <tr>
+                <td>{{ row[0] }}</td>
+                <td>{{ row[1] }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">User Types</h3>
+</div>
+        <div class="card-body">
+          <table class="table table-bordered table-striped">
+            <thead>
+              <tr>
+                <th>User Type</th>
+                <th>Count</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for index, row in usertype_counts_df.iterrows() %}
+              <tr>
+                <td>{{ row[0] }}</td>
+                <td>{{ row[1] }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-4">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Gender Distribution</h3>
+        </div>
+        <div class="card-body">
+          <!--img src="instance/StatisticsGenderDistribution.png" alt="Gender Distribution"-->
+          <img src="{{ url_for('admin.get_image', name='GenderDistribution') }}" alt="Gender Distribution" width="500" height="300">
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">User Types</h3>
+        </div>
+        <div class="card-body">
+          <!--img src="data:image/png;base64,{{ active_users }}" alt="Active Users"-->
+          <img src="{{ url_for('admin.get_image', name='UserDistribution') }}" alt="Users Distribution" width="500" height="300">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

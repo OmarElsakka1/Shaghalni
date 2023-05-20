@@ -1,0 +1,14 @@
+{% extends "Admin_base.html" %}
+
+{% block title %}Delete User{% endblock %}
+
+{% block content %}
+  <h1>Remove User</h1>
+  <form method="POST" enctype="multipart/form-data">    
+    <div class="form-group">
+      <input type="text" class="form-control" id="email" name="email">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Remove</button>
+  </form>
+{% endblock %}
