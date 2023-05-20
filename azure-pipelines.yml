@@ -5,15 +5,19 @@
 
 trigger:
 - main
-
+pr:
+- master
 pool:
   vmImage: ubuntu-latest
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+stages:
+- stage: test
+  displayName: 'unit tests'
+  jobs:
+  - job: unit_tests
+    steps:
+    - script: |
+        echo we will do unit tests here
+      displayName: 'Build Docker image for unit tests'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+    
