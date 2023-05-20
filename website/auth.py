@@ -4,11 +4,10 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from . import db   ##means from __init__.py import db
 from flask_login import login_user, login_required, logout_user, current_user
 from .helpers import CheckTypicality, CheckLength, Passwords, Check_email
-from flask_wtf.file import FileField, FileRequired
-import os
+
 
 from flask import send_file
-from io import BytesIO
+
 
 
 auth = Blueprint('auth', __name__)
