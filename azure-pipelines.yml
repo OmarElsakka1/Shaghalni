@@ -28,7 +28,7 @@ stages:
     - task: Docker@2
       inputs:
         containerRegistry: 'MyDocker'
-        repository: 'ezzat12 / shaghalni'
+        repository: 'ezzat12/shaghalni'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile.deploy'
 
