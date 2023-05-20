@@ -20,10 +20,10 @@ stages:
         echo we will do unit tests here
       displayName: 'Build Docker image for unit tests'
 
-- stage: build-push
+- stage: build_push
   displayName: 'Build and push to docker hub'
   jobs:
-  - job : build-push
+  - job : build_push_job
     steps:
     - task: Docker@2
       inputs:
