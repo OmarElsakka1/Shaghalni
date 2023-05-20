@@ -1,0 +1,36 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+
+trigger:
+- main
+pr:
+- master
+pool:
+  vmImage: ubuntu-latest
+
+stages:
+- stage: test
+  displayName: 'unit tests'
+  jobs:
+  - job: unit_tests
+    steps:
+    - script: |
+        echo we will do unit tests here
+      displayName: 'Build Docker image for unit tests'
+
+- stage: build_push
+  displayName: 'Build and push to docker hub'
+  jobs:
+  - job : build_push_job
+    steps:
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'MyDocker'
+        repository: 'ezzat12/shaghalni'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile.deploy'
+
+    
