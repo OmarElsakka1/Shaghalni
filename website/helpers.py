@@ -1,6 +1,7 @@
 from datetime import datetime
 from datetime import datetime, timedelta
 from sqlalchemy.exc import IntegrityError
+
 import re   
 
 from .models import db, Job , User, Admin
@@ -22,8 +23,8 @@ def Adding_Initial_Admin():
 def populate_database():
     # create business owner users
     try :
-        user1 = User(email='owner1@example1.com', password='password', first_name='John', last_name='Doe', gender='Male', usertype='Business Owner', job_des='Business Owner')
-        user2 = User(email='owner2@example2.com', password='password', first_name='Jane', last_name='Smith', gender='Female', usertype='Business Owner', job_des='Business Owner')
+        user1 = User(email='owner1@example1.com', password=generate_password_hash('1234567', method='sha256'), first_name='John', last_name='Doe', gender='Male', usertype='Business Owner', job_des='Business Owner')
+        user2 = User(email='owner2@example2.com', password=generate_password_hash('1234567', method='sha256'), first_name='Jane', last_name='Smith', gender='Female', usertype='Business Owner', job_des='Business Owner')
         db.session.add_all([user1])
         db.session.commit()
 
