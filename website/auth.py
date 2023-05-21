@@ -53,7 +53,7 @@ def sign_up():
 
         user = User.query.filter_by(email=email).first()
         IsGoodpass = Passwords(password1, password2).is_good()
-        IsGoodemail = Check_email().is_in_form(email)
+        IsGoodemail = Check_email().is_in_form(email,True)
 
         firstcheck = CheckLength(2,"First name").is_short(first_name)
         lastcheck = CheckLength(2,"Last name").is_short(last_name)
@@ -72,7 +72,7 @@ def sign_up():
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user, remember=True)
-            flash('Account created!', category='success')
+            flash('Account created Successfully!', category='success')
             return redirect(url_for('views.home'))
 
     return render_template("sign_up.html", user=current_user, dropdown_options = dropdown_options)
@@ -93,43 +93,44 @@ def change_profile():
         file = request.files['file']
 
         user = User.query.filter_by(id=current_user.id).first()
-        IsGoodemail = Check_email().is_in_form(email)
+        IsGoodemail = Check_email().is_in_form(email, not CheckTypicality(email, ""))
 
         if len(email) == 0 or not IsGoodemail:
             pass
         elif not (CheckTypicality(email, current_user.email).is_equal() or User.query.filter_by(email=email).first()):
             user.email = email
             db.session.commit()
-            flash('Email changed Successfully.', category='success')
+            flash('Email changed Successfully!', category='success')
         
 
         if len(first_name) == 0:
             pass
-        elif not (CheckLength(2,"First name").is_short(first_name) or CheckTypicality(first_name, current_user.first_name).is_equal()):
+        elif not (CheckLength(2,"First name").is_short(first_name, showmsg = not CheckTypicality(first_name, "").is_equal()) or CheckTypicality(first_name, current_user.first_name).is_equal()):
             user.first_name = first_name
             db.session.commit()
-            flash('First name changed Successfully.', category='success')
+            flash('First name changed Successfully!', category='success')
 
         if len(last_name) == 0:
             pass
-        elif not (CheckLength(2,"Last name").is_short(last_name) or CheckTypicality(last_name, current_user.last_name).is_equal()):
+        elif not (CheckLength(2,"Last name").is_short(last_name, showmsg = not CheckTypicality(last_name, "").is_equal()) or CheckTypicality(last_name, current_user.last_name).is_equal()):
             user.last_name = last_name
             db.session.commit()
-            flash('Last name changed Successfully.', category='success')
+            flash('Last name changed Successfully!', category='success')
+
         
-        if not (CheckLength(4,"Job Description").is_short(job_des) or CheckTypicality(job_des, current_user.job_des).is_equal()):
+        if not (CheckLength(4,"Job Description").is_short(job_des, showmsg = not CheckTypicality(job_des, "").is_equal()) or CheckTypicality(job_des, current_user.job_des).is_equal()):
             user.job_des = job_des
             db.session.commit()
-            flash('Job Description updated Successfully.', category='success')
+            flash('Job Description updated Successfully!', category='success')
             
         if not (CheckTypicality(gender, current_user.gender).is_equal() or CheckTypicality(gender, "").is_equal()):
             user.gender = gender
             db.session.commit()
-            flash('Gender updated Successfully.', category='success')
+            flash('Gender updated Successfully!', category='success')
         if not (CheckTypicality(usertype, current_user.usertype).is_equal() or CheckTypicality(usertype, "").is_equal()):
             user.usertype = usertype
             db.session.commit()
-            flash('User Type updated Successfully.', category='success')
+            flash('User Type updated Successfully!', category='success')
 
         if (file.filename):
             filename = file.filename
@@ -163,8 +164,8 @@ def change_password():
             new_password_hash = generate_password_hash(password1)
             user.password = new_password_hash
             db.session.commit()
-            flash('Password Changed!', category='success')
-            return redirect(url_for('auth.change_password'))
+            flash('Password Changed Successfully!', category='success')
+            return redirect(url_for('views.browse_jobs'))
 
     return render_template("change_password.html", user=current_user)
 

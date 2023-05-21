@@ -69,9 +69,12 @@ class CheckLength:
   def __init__(self,min_len, name):
     self.min_len = min_len
     self.name = name
-  def is_short(self, Word):
+  def is_short(self, Word, showmsg = True):
     if (len(Word) < self.min_len):
-      flash('{} must be at least {} characters.'.format(self.name, self.min_len), category='error')
+      if showmsg:
+        flash('{} must be at least {} characters.'.format(self.name, self.min_len), category='error')
+      else:
+        pass
       return True
     else:
       return False
@@ -89,6 +92,7 @@ class Passwords:
       flash('Passwords don\'t match.', category='error')
     elif CheckLength(7,"Password").is_short(self.new_password):
       pass
+      # pass
     else:
       return True
     return False
@@ -108,11 +112,13 @@ class Passwords:
 class Check_email:
    def __init__(self):
       self.regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$' 
-   def is_in_form(self, email):
+   def is_in_form(self, email,showmsg):
       if(re.search(self.regex,email)):   
         return True   
-      else:   
+      elif (showmsg):   
         flash('Email has Invalid format.', category='error')
+        return False
+      else:
         return False
 
 
