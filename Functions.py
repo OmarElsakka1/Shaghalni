@@ -18,8 +18,8 @@ class signup_testing():
         driver.find_element(By.ID, "password1").send_keys(password)
     def __put_confirm_password(self,driver, confirmpassword):
         driver.find_element(By.ID, "password2").send_keys(confirmpassword)
-    def __put_job_des(self,driver, job_des):
-        driver.find_element(By.ID, "job_description").send_keys(job_des)
+    def __put_job_des(self,driver, about):
+        driver.find_element(By.ID, "job_description").send_keys(about)
     def __put_gender(self,driver, gender):
         driver.find_element(By.ID, "gender").send_keys(gender)
     def __put_usertype(self,driver, usertype):

@@ -19,7 +19,7 @@
                   <li><strong>Deadline:</strong> {{ job.job_deadline }}</li>
                   <li><strong>User:</strong> {{ job.user.first_name }} {{ job.user.last_name }}</li>
                 </ul>
-                <form action="{{ url_for('views.apply_job', job_id=job.id) }}" method="POST">
+                <form action="{{ url_for('job_views.apply_job', job_id=job.id) }}" method="POST">
                   <button type="submit" class="btn btn-primary">Apply</button>
                 </form>
               </div>

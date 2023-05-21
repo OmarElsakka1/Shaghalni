@@ -48,7 +48,7 @@ def sign_up():
         password2 = request.form.get('password2')
         gender = request.form['gender']
         usertype = request.form['usertype']
-        job_des = request.form.get('job_description')
+        about = request.form.get('job_description')
         
 
         user = User.query.filter_by(email=email).first()
@@ -57,7 +57,7 @@ def sign_up():
 
         firstcheck = CheckLength(2,"First name").is_short(first_name)
         lastcheck = CheckLength(2,"Last name").is_short(last_name)
-        jobcheck = CheckLength(4, "Job Description").is_short(job_des)
+        jobcheck = CheckLength(4, "Job Description").is_short(about)
         if user:
             flash('Email already exists!', category='error')
         elif firstcheck or lastcheck or jobcheck or not(IsGoodemail and IsGoodpass):  # Demorgan
@@ -67,7 +67,7 @@ def sign_up():
         elif CheckTypicality(usertype, "").is_equal(): 
             flash('You have to choose a User Type!', category='error')
         else:
-            new_user = User(email=email, first_name=first_name, last_name = last_name,job_des = job_des, 
+            new_user = User(email=email, first_name=first_name, last_name = last_name,about = about, 
                  gender = gender, usertype = usertype, password=generate_password_hash(password1, method='sha256'))
             db.session.add(new_user)
             db.session.commit()
@@ -89,7 +89,7 @@ def change_profile():
         last_name = request.form.get('lastName')
         gender = request.form['gender']
         usertype = request.form['usertype']
-        job_des = request.form.get('job_description')
+        about = request.form.get('job_description')
         file = request.files['file']
 
         user = User.query.filter_by(id=current_user.id).first()
@@ -118,8 +118,8 @@ def change_profile():
             flash('Last name changed Successfully!', category='success')
 
         
-        if not (CheckLength(4,"Job Description").is_short(job_des, showmsg = not CheckTypicality(job_des, "").is_equal()) or CheckTypicality(job_des, current_user.job_des).is_equal()):
-            user.job_des = job_des
+        if not (CheckLength(4,"Job Description").is_short(about, showmsg = not CheckTypicality(about, "").is_equal()) or CheckTypicality(about, current_user.about).is_equal()):
+            user.about = about
             db.session.commit()
             flash('Job Description updated Successfully!', category='success')
             

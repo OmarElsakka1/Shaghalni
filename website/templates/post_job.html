@@ -8,7 +8,7 @@
         <h1 class="text-center my-5">Post a Job</h1>
         <div class="row justify-content-center">
           <div class="col-md-8 col-lg-6">
-            <form action="{{ url_for('views.post_job') }}" method="POST">
+            <form action="{{ url_for('job_views.post_job') }}" method="POST">
               <div class="form-group">
                 <label for="job_name">Job Name:</label>
                 <input type="text" class="form-control" id="job_name" name="job_name" required>
@@ -24,6 +24,10 @@
               <div class="form-group">
                 <label for="job_deadline">Job Deadline:</label>
                 <input type="date" class="form-control" id="job_deadline" name="job_deadline" required>
+              </div>
+              <div class="form-group">
+                <label class="form-control-label">Attach image</label>
+                <input type="file" name="img">
               </div>
               <button type="submit" class="btn btn-primary">Post Job</button>
             </form>

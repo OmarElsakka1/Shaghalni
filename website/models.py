@@ -24,7 +24,7 @@ class User(db.Model, UserMixin):
     last_name = db.Column(db.String(50), nullable=False)
     gender = db.Column(db.String(10), nullable=False)
     usertype = db.Column(db.String(10), nullable=False)
-    job_des = db.Column(db.String(400))
+    about = db.Column(db.String(400))
     file = db.Column(db.LargeBinary)
     jobs = db.relationship('Job' , backref='user')
 
@@ -33,9 +33,11 @@ class Job(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     job_name = db.Column(db.String(150) , nullable =False)
     job_payment = db.Column(db.Numeric(10, 2), nullable=False)
-    job_description = db.Column(db.String(1000) , nullable =False)
+    job_description = db.Column(db.String(200) , nullable =False)
+    job_details = db.Column(db.String(2000) )
     job_date = db.Column(db.DateTime(timezone=True), default=func.now() ,nullable =False)
     job_deadline = db.Column(db.DateTime(timezone=True), nullable =False )
+    
     user_id = db.Column(db.Integer, db.ForeignKey('user.id') , nullable =False)
 
 
@@ -47,4 +49,15 @@ class Admin(db.Model, UserMixin):
     last_name = db.Column(db.String(50), nullable=False)
 
     
+class JobApplication(db.Model) :
+    __table_args__ = (
+        db.UniqueConstraint('job_id', 'user_id'),
+      )
+    id = db.Column(db.Integer, primary_key=True)
+    job_id = db.Column(db.Integer, db.ForeignKey('job.id') , nullable =False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id') , nullable =False)
 
+class JobImages(db.Model) :
+    id = db.Column(db.Integer, primary_key=True)
+    job_id = db.Column(db.Integer, db.ForeignKey('job.id') , nullable =False)
+    image = db.Column(db.LargeBinary)

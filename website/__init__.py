@@ -3,6 +3,10 @@ from os import path
 from .models import db , DB_NAME
 from flask_login import LoginManager
 from .helpers import *
+from .views import views
+from .auth import auth
+from .admin import admin
+from .job_views import job_views
 import os
 
 
@@ -18,15 +22,14 @@ def create_app():
         db.init_app(app)
         create_Images_Folder(app)
 
-        from .views import views
-        from .auth import auth
-        from .admin import admin
+        
 
         app.register_blueprint(views, url_prefix='/')
         app.register_blueprint(auth, url_prefix='/')
+        app.register_blueprint(job_views , url_prefix = '/' )
         app.register_blueprint(admin, url_prefix='/admin')
 
-        from .models import User, Note
+        from .models import User
         
         with app.app_context():
             db.create_all()
