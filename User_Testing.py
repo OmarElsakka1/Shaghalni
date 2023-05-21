@@ -15,9 +15,10 @@ def test_sign_up():
     fail_nogender_msg = "You have to choose a Gender!\n×"
     fail_nousertype_msg = "You have to choose a User Type!\n×"
 
+    path = "http://localhost/sign-up"
 
     # Testing Good account
-    assert signup_testing("http://localhost/sign-up").apply_signup(msg= succes_msg,
+    assert signup_testing(path).apply_signup(msg= succes_msg,
                                                         email="1111110@hello.com",
                                                         firstname="Mahrous",
                                                         lastname="Nour",
@@ -25,7 +26,7 @@ def test_sign_up():
                                                         jobdes="I am a frontend developer",gender = "Male",
                                                         usertype="Freelancer") == True
     ## Testing not typical passwords formatting
-    assert signup_testing("http://localhost/sign-up").apply_signup(msg = fail_passmatch_msg,
+    assert signup_testing(path).apply_signup(msg = fail_passmatch_msg,
                                                         email="1111111@hello.com",
                                                         firstname="Mahrous",
                                                         lastname="Nour",
@@ -33,7 +34,7 @@ def test_sign_up():
                                                         jobdes="I am a frontend developer",gender = "Male",
                                                         usertype="Freelancer") == True
     # Testing Small Password formatting
-    assert signup_testing("http://localhost/sign-up").apply_signup(msg = fail_pass_length_msg,
+    assert signup_testing(path).apply_signup(msg = fail_pass_length_msg,
                                                         email="1111112@hello.com",
                                                         firstname="Mahrous",
                                                         lastname="Nour",
@@ -41,7 +42,7 @@ def test_sign_up():
                                                         jobdes="I am a frontend developer",gender = "Male",
                                                         usertype="Freelancer") == True
     # Testing Small First name formatting
-    assert signup_testing("http://localhost/sign-up").apply_signup(msg =fail_fistlength_msg,
+    assert signup_testing(path).apply_signup(msg =fail_fistlength_msg,
                                                         email="1111113@hello.com",
                                                         firstname="M",
                                                         lastname="Nour",
@@ -49,7 +50,7 @@ def test_sign_up():
                                                         jobdes="I am a frontend developer",gender = "Male",
                                                         usertype="Freelancer") == True
     # Testing Small Last name formatting
-    assert signup_testing("http://localhost/sign-up").apply_signup(msg =fail_lastlength_msg,
+    assert signup_testing(path).apply_signup(msg =fail_lastlength_msg,
                                                         email="1111114@hello.com",
                                                         firstname="Mahrous",
                                                         lastname="N",
@@ -58,7 +59,7 @@ def test_sign_up():
                                                         usertype="Freelancer") == True
     
     # Testing good account
-    assert signup_testing("http://localhost/sign-up").apply_signup(msg= succes_msg,
+    assert signup_testing(path).apply_signup(msg= succes_msg,
                                                         email="1111115@hello.com",
                                                         firstname="Ali",
                                                         lastname="Mohsen",
@@ -69,7 +70,7 @@ def test_sign_up():
 
 
     # Testing good account
-    assert signup_testing("http://localhost/sign-up").apply_signup(msg = succes_msg,
+    assert signup_testing(path).apply_signup(msg = succes_msg,
                                                         email="1111116@hello.com",
                                                         firstname="hanan",
                                                         lastname="Abdelrahman",
@@ -78,7 +79,7 @@ def test_sign_up():
                                                         usertype="Both") == True
     
     # Testing sign up with alread existing account
-    assert signup_testing("http://localhost/sign-up").apply_signup(msg = fail_emailexist_msg,
+    assert signup_testing(path).apply_signup(msg = fail_emailexist_msg,
                                                         email="1111116@hello.com",
                                                         firstname="hanan",
                                                         lastname="Abdelrahman",
@@ -86,7 +87,7 @@ def test_sign_up():
                                                         jobdes="I am a manger",gender = "Female",
                                                         usertype="Both") == True
     # Testing Small job description formatting
-    assert signup_testing("http://localhost/sign-up").apply_signup(msg = fail_jobdes_length_msg,
+    assert signup_testing(path).apply_signup(msg = fail_jobdes_length_msg,
                                                         email="1111117@hello.com",
                                                         firstname="hanan",
                                                         lastname="Abdelrahman",
@@ -95,7 +96,7 @@ def test_sign_up():
                                                         usertype="Both") == True
 
     # Testing No gender providing
-    assert signup_testing("http://localhost/sign-up").apply_signup(msg = fail_nogender_msg,
+    assert signup_testing(path).apply_signup(msg = fail_nogender_msg,
                                                         email="1111118@hello.com",
                                                         firstname="hanan",
                                                         lastname="Abdelrahman",
@@ -104,7 +105,7 @@ def test_sign_up():
                                                         usertype="Both") == True
     
     # Testing No user type providing
-    assert signup_testing("http://localhost/sign-up").apply_signup(msg = fail_nousertype_msg,
+    assert signup_testing(path).apply_signup(msg = fail_nousertype_msg,
                                                         email="1111119@hello.com",
                                                         firstname="hanan",
                                                         lastname="Abdelrahman",
@@ -113,7 +114,7 @@ def test_sign_up():
                                                         gender="Female") == True
   
     # Testing invalid usertype account
-    assert signup_testing("http://localhost/sign-up").apply_signup(msg = fail_nousertype_msg,
+    assert signup_testing(path).apply_signup(msg = fail_nousertype_msg,
                                                         email="1111120@hello.com",
                                                         firstname="hanan",
                                                         lastname="Abdelrahman",
@@ -122,7 +123,7 @@ def test_sign_up():
                                                         usertype="Ok") == True
     
     # Testing invalid gender account
-    assert signup_testing("http://localhost/sign-up").apply_signup(msg = fail_nogender_msg,
+    assert signup_testing(path).apply_signup(msg = fail_nogender_msg,
                                                         email="1111121@hello.com",
                                                         firstname="hanan",
                                                         lastname="Abdelrahman",
@@ -131,7 +132,7 @@ def test_sign_up():
                                                         usertype="Freelancer") == True
     
     # Testing good account
-    assert signup_testing("http://localhost/sign-up").apply_signup(msg = succes_msg,
+    assert signup_testing(path).apply_signup(msg = succes_msg,
                                                         email="3456789@hello.com",
                                                         firstname="Omar",
                                                         lastname="ElSakka",
@@ -153,12 +154,16 @@ def initializing_parameters(email, password):
 def test_change_password():
     email = "3456789@hello.com"
     password = "sdfghjk"
-    success_msg = "Password Changed Successfully!"
-    assert login_action_testing("http://localhost/login",
-                                     email, password).do_change_Password_action("sdfghjk","sdfghjk",success_msg) == True
-    assert login_action_testing("http://localhost/login",
+    success_msg = "Password Changed Successfully!\n×"
+    page = "changepassword"
+    button = "changepasssubmit"
+    path = "http://localhost/login"
+
+    assert login_action_testing(path,
+                                     email, password).do_change_Password_action("sdfghjk","sdfghjk",success_msg,page, button) == True
+    assert login_action_testing(path,
                                      email, password).do_change_Password_action("sdfghjk","1234",success_msg) == False
-    assert login_action_testing("http://localhost/login",
+    assert login_action_testing(path,
                                      email, password).do_change_Password_action("1234","sdfghjk",success_msg) == False
 
 
@@ -167,47 +172,50 @@ def test_change_profile():
     email = "3456789@hello.com"
     password = "sdfghjk"
     initializing_parameters(email, password)
-    assert login_action_testing("http://localhost/login",
+    path = "http://localhost/login"
+
+    assert login_action_testing(path,
             email, password).do_change_Profile_action(newemail ="3456789@asljhflksdfjb.com",
                                                       firstname= "Ali",
                                                       lastname= "ElSakka2",
                                                       jobdes= "I am Engineer") == True
     
-    assert login_action_testing("http://localhost/login",
+    assert login_action_testing(path,
             "3456789@asljhflksdfjb.com", password).do_change_Profile_action(firstname= "Omar",
                                                       jobdes= "I am C Programmer") == True
     
-    assert login_action_testing("http://localhost/login",
+    assert login_action_testing(path,
             "3456789@asljhflksdfjb.com", password).do_change_Profile_action(newemail =email,
                                                       jobdes= "I am Python Programmer") == True
         
-    assert login_action_testing("http://localhost/login",
+    assert login_action_testing(path,
             email, password).do_change_Profile_action(firstname= "Mahmoud",
                                                       jobdes= "I am C Programmer",
                                                       gender = "Female") == True
     
-    assert login_action_testing("http://localhost/login",
+    assert login_action_testing(path,
             email, password).do_change_Profile_action(firstname= "Ali",
                                                       jobdes= "I am python Programmer",
                                                       gender = "Haha") == False
     
-    assert login_action_testing("http://localhost/login",
+    assert login_action_testing(path,
             email, password).do_change_Profile_action(newemail="3456789@asljhflksdfjb.com",
                                                       lastname= "Omar",
                                                       jobdes= "I am a data analyst",
                                                       gender= "Male",
                                                       usertype= "BusinessOwner") == True
     
-    assert login_action_testing("http://localhost/login",
+    assert login_action_testing(path,
             "3456789@asljhflksdfjb.com", password).do_change_Profile_action(lastname= "Medhat",
                                                       jobdes= "I am an Engineer",
                                                       usertype= "haha") == False
     
-    assert login_action_testing("http://localhost/login",
+    assert login_action_testing(path,
             "3456789@asljhflksdfjb.com", password).do_change_Profile_action(newemail =email,
                                                       firstname= "Omar",
                                                       lastname= "ElSakka",
                                                       jobdes= "I am C Programmer") == True
+
 
 
 
