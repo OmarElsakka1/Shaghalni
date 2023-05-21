@@ -114,10 +114,10 @@ class Check_email:
       self.regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$' 
    def is_in_form(self, email,showmsg):
       if(re.search(self.regex,email)):     
-        if (showmsg):   
-          flash('Email has Invalid format!', category='error')
         return True
       else:
+        if (showmsg):   
+          flash('Email has Invalid format!', category='error')
         return False 
 
 

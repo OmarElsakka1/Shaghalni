@@ -95,13 +95,13 @@ def add_admin():
 
         user = Admin.query.filter_by(email=email).first()
         IsGoodpass = Passwords(password1, password2).is_good()
-        IsGoodemail = Check_email().is_in_form(email)
+        IsGoodemail = Check_email().is_in_form(email, showmsg = True)
 
         firstcheck = CheckLength(2,"First name").is_short(first_name)
         lastcheck = CheckLength(2,"Last name").is_short(last_name)
         
         if user:
-            flash('Email already exists.', category='error')
+            flash('Email already exists!', category='error')
         elif firstcheck or lastcheck or not(IsGoodemail and IsGoodpass):  # Demorgan
             pass
         else:
@@ -132,7 +132,7 @@ def change_password():
             new_password_hash = generate_password_hash(password1)
             user.password = new_password_hash
             db.session.commit()
-            flash('Password Changed!', category='success')
+            flash('Password Changed Successfully!', category='success')
             return redirect(url_for('admin.change_password'))
 
     return render_template("Admin_change_password.html", user=current_user)
