@@ -5,6 +5,57 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from time import sleep      
 
+class signup_testing():
+    def __init__(self, Path):
+        self.Path = Path
+    def __put_email(self,driver, email):
+        driver.find_element(By.ID, "email").send_keys(email)
+    def __put_first_name(self,driver, firstname):
+        driver.find_element(By.ID, "firstName").send_keys(firstname)
+    def __put_last_name(self,driver, lastname):
+        driver.find_element(By.ID, "lastName").send_keys(lastname)
+    def __put_password(self,driver, password):
+        driver.find_element(By.ID, "password1").send_keys(password)
+    def __put_confirm_password(self,driver, confirmpassword):
+        driver.find_element(By.ID, "password2").send_keys(confirmpassword)
+    def __put_job_des(self,driver, job_des):
+        driver.find_element(By.ID, "job_description").send_keys(job_des)
+    def __put_gender(self,driver, gender):
+        driver.find_element(By.ID, "gender").send_keys(gender)
+    def __put_usertype(self,driver, usertype):
+        driver.find_element(By.ID, "usertype").send_keys(usertype)
+    def apply_signup(self,msg,email=None,firstname=None,lastname=None,pass1 = None,pass2 = None, jobdes = None, gender = None, usertype = None):
+        options = Options()
+        options.add_experimental_option("excludeSwitches",["enable-logging"])
+        driver = webdriver.Chrome(options = options)
+        driver.get(self.Path)
+
+        if (email != None):
+            self.__put_email(driver,email)
+        if (firstname != None):
+            self.__put_first_name(driver,firstname)
+        if (lastname != None):
+            self.__put_last_name(driver,lastname)
+        if (pass1 != None):
+            self.__put_password(driver,pass1)
+        if (pass2 != None):
+            self.__put_confirm_password(driver,pass2)
+        if (jobdes != None):
+            self.__put_job_des(driver,jobdes)
+        if (gender != None):
+            self.__put_gender(driver,gender)
+        if (usertype != None):
+            self.__put_usertype(driver,usertype)
+        
+        driver.find_element(By.ID, "signupsubmit").click()
+        element = driver.find_element(By.XPATH, "/html/body")
+        if msg in element.text:
+            close_driver().do_quit(driver)
+            return True
+        else:
+            return False
+
+
 
 class login_action_testing():
     def __init__(self,Path, email, password):

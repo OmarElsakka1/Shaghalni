@@ -59,13 +59,13 @@ def sign_up():
         lastcheck = CheckLength(2,"Last name").is_short(last_name)
         jobcheck = CheckLength(4, "Job Description").is_short(job_des)
         if user:
-            flash('Email already exists.', category='error')
+            flash('Email already exists!', category='error')
         elif firstcheck or lastcheck or jobcheck or not(IsGoodemail and IsGoodpass):  # Demorgan
             pass
         elif CheckTypicality(gender, "").is_equal():  
-            flash('You have to choose a Gender.', category='error')
+            flash('You have to choose a Gender!', category='error')
         elif CheckTypicality(usertype, "").is_equal(): 
-            flash('You have to choose a User Type.', category='error')
+            flash('You have to choose a User Type!', category='error')
         else:
             new_user = User(email=email, first_name=first_name, last_name = last_name,job_des = job_des, 
                  gender = gender, usertype = usertype, password=generate_password_hash(password1, method='sha256'))

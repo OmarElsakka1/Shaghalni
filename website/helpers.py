@@ -72,7 +72,7 @@ class CheckLength:
   def is_short(self, Word, showmsg = True):
     if (len(Word) < self.min_len):
       if showmsg:
-        flash('{} must be at least {} characters.'.format(self.name, self.min_len), category='error')
+        flash('{} must be at least {} characters!'.format(self.name, self.min_len), category='error')
       else:
         pass
       return True
@@ -89,7 +89,7 @@ class Passwords:
 
   def is_good(self):
     if not CheckTypicality(self.new_password, self.confirm_new_password).is_equal():
-      flash('Passwords don\'t match.', category='error')
+      flash('Passwords don\'t match!', category='error')
     elif CheckLength(7,"Password").is_short(self.new_password):
       pass
       # pass
@@ -113,13 +113,12 @@ class Check_email:
    def __init__(self):
       self.regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$' 
    def is_in_form(self, email,showmsg):
-      if(re.search(self.regex,email)):   
-        return True   
-      elif (showmsg):   
-        flash('Email has Invalid format.', category='error')
-        return False
+      if(re.search(self.regex,email)):     
+        if (showmsg):   
+          flash('Email has Invalid format!', category='error')
+        return True
       else:
-        return False
+        return False 
 
 
 
