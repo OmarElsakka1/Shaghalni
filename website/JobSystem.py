@@ -1,4 +1,5 @@
 from .models import *
+from .ImageManager import ImageManager
 from . import db
 
 
@@ -10,6 +11,17 @@ class JobSystem :
     def PostJob(self , job :Job , img : None ):
         self.db.session.add(job)
         self.db.session.commit()
+        if img != None :
+            fname = ImageManager.SaveImage(img , job)
+            if fname == None :
+                print("Error in saving image")
+                self.db.session.delete(job)
+                self.db.session.commit()
+                return False
+            
+            job_image = JobImage(job_id = job.id , image_path = fname)
+            self.db.session.add(job_image)
+            self.db.session.commit()
         return True
     
     def GetAllJobs(self):
@@ -36,6 +48,15 @@ class JobSystem :
             return False
             
         
+    def GetJobImage(self , job_id : int) -> JobImage:
+        """ 
+        Args:
+            job_id (int): _description_
+
+        Returns:
+            JobImage: 
+        """        
+        return JobImage.query.filter_by(job_id = job_id).first()
 
     def DeleteJob(self , id):
         try:

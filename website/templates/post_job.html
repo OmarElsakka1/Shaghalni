@@ -8,28 +8,35 @@
         <h1 class="text-center my-5">Post a Job</h1>
         <div class="row justify-content-center">
           <div class="col-md-8 col-lg-6">
-            <form action="{{ url_for('job_views.post_job') }}" method="POST">
+            <form action="{{ url_for('job_views.post_job') }}" method="POST" enctype="multipart/form-data">
+
               <div class="form-group">
                 <label for="job_name">Job Name:</label>
                 <input type="text" class="form-control" id="job_name" name="job_name" required>
               </div>
+
               <div class="form-group">
                 <label for="job_description">Job Description:</label>
                 <textarea class="form-control" id="job_description" name="job_description" required></textarea>
               </div>
+
               <div class="form-group">
                 <label for="job_payment">Job Payment:</label>
                 <input type="number" class="form-control" id="job_payment" name="job_payment"  min="0" required>
               </div>
+
               <div class="form-group">
                 <label for="job_deadline">Job Deadline:</label>
                 <input type="date" class="form-control" id="job_deadline" name="job_deadline" required>
               </div>
+
               <div class="form-group">
                 <label class="form-control-label">Attach image</label>
-                <input type="file" name="img">
+                <input type="file" accept="image/png, image/jpeg, image/jpg" name="img">
               </div>
+
               <button type="submit" class="btn btn-primary">Post Job</button>
+
             </form>
           </div>
         </div>

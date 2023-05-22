@@ -57,7 +57,7 @@ class JobApplication(db.Model) :
     job_id = db.Column(db.Integer, db.ForeignKey('job.id') , nullable =False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id') , nullable =False)
 
-class JobImages(db.Model) :
+class JobImage(db.Model) :
     id = db.Column(db.Integer, primary_key=True)
     job_id = db.Column(db.Integer, db.ForeignKey('job.id') , nullable =False)
-    image = db.Column(db.LargeBinary)
+    image_path = db.Column(db.String(200) , nullable =False)

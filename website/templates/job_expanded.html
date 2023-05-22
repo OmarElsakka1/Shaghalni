@@ -6,9 +6,7 @@
   <hr>
 
   <div class="row">
-    <div class="col-md-4">
-      <img class="img-responsive" src="{{ url_for('static', filename='uploads/' + job.image) }}" alt="{{ job.job_name }}">
-    </div>
+
 
     <div class="col-md-8">
         
@@ -29,6 +27,12 @@
 
       <h4>Date Posted</h4>
       <p>{{ job.job_date }}</p>
+
+      
+      <img src="{{ img }}" alt="Image" width="500" height="400">
+    </body>
+</html>
+
     </div>
   </div>
 </div>
