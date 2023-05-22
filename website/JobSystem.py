@@ -58,7 +58,16 @@ class JobSystem :
         """        
         return JobImage.query.filter_by(job_id = job_id).first()
 
-    def DeleteJob(self , id):
+    def DeleteJob(self , id : int):
+        """ 
+        Delete a job from the database.
+        Args:
+            id (int): id of the job
+        
+        Returns:
+            bool: True if job deleted else False.
+        """        
+       
         try:
             job = Job.query.get(id)
             self.db.session.delete(job)

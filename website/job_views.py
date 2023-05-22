@@ -4,7 +4,6 @@ from flask_login import login_required, current_user
 from .ImageManager import  ImageManager
 from .JobSystem import jobSystem
 from .models import Job
-from . import db
 import os 
 
 job_views = Blueprint('job_views', __name__)

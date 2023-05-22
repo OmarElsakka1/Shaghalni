@@ -1,0 +1,23 @@
+{% extends "base.html" %} 
+{% block title %}Search{% endblock %} 
+{% block content %}
+  <h1 align="center">Search results for {{search_prompt}}</h1>
+  
+  {% for result in found %}
+  <div class="card my-3">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-3">
+          <img src="{{ result.photo_url }}" class="img-fluid rounded" alt="{{ result.first_name }}'s photo">
+        </div>
+        <div class="col-md-9">
+          <h5 class="card-title">{{ loop.index0+1 }}. {{ result.first_name }} {{ result.last_name }}</h5>
+          <p class="card-text">{{ result.email }}</p>
+          <p class="card-text">{{ result.gender }}</p>
+          <a href="{{ url_for('profile_views.view_profile', id=result.id) }}" class="btn btn-primary">View Profile</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+{% endblock %}

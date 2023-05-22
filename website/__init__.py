@@ -7,6 +7,7 @@ from .views import views
 from .auth import auth
 from .admin import admin
 from .job_views import job_views
+from .profile_views import profile_views
 import os
 
 
@@ -27,6 +28,7 @@ def create_app():
         app.register_blueprint(views, url_prefix='/')
         app.register_blueprint(auth, url_prefix='/')
         app.register_blueprint(job_views , url_prefix = '/' )
+        app.register_blueprint(profile_views , url_prefix = '/' )
         app.register_blueprint(admin, url_prefix='/admin')
 
         from .models import User

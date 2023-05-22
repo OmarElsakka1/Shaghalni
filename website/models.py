@@ -25,8 +25,8 @@ class User(db.Model, UserMixin):
     gender = db.Column(db.String(10), nullable=False)
     usertype = db.Column(db.String(10), nullable=False)
     about = db.Column(db.String(400))
-    file = db.Column(db.LargeBinary)
     jobs = db.relationship('Job' , backref='user')
+    file = db.Column(db.LargeBinary)
 
 
 class Job(db.Model):
