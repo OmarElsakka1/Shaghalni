@@ -11,21 +11,15 @@ pr:
 pool:
   vmImage: ubuntu-latest
 
-stages:
-- stage: Installing
-  displayName: 'Install Requirements'
-  jobs:
-  - job: unit_tests
-    steps:
-    - script: |
-        pip install -r requirements.txt
-      displayName: 'Install Requirements'
 
 - stage: UserTesting
   displayName: 'unit tests for User'
   jobs:
   - job: unit_tests
     steps:
+    - script: |
+        pip install -r requirements.txt
+      displayName: 'Installing Requirements'
     - script: |
         python main.py
       displayName: 'Running Website for user testing'
