@@ -1,10 +1,10 @@
 from .models import *
 from .ImageManager import ImageManager
 from . import db
+from .SingletonMeta import SingletonMeta
 
 
-
-class JobSystem :
+class JobSystem(metaclass=SingletonMeta) :
     def __init__(self , db) -> None:
         self.db = db
 
@@ -24,14 +24,15 @@ class JobSystem :
             self.db.session.commit()
         return True
     
-    def GetAllJobs(self):
+
+    def GetAllJobs(self) -> list[Job]:
         print("Getting all jobs")
         return Job.query.all()
         
-    def GetJob(self , id):
+    def GetJob(self , id) -> Job:
         return Job.query.get_or_404(id)
 
-    def ApplyForJob(self , job_id , user_id) :
+    def ApplyForJob(self , job_id , user_id) -> bool  :
         print("Applying for a job")
         try :
             job = Job.query.get(job_id)
@@ -39,7 +40,7 @@ class JobSystem :
             if not job or not user :
                 print("User or job not found")
                 return False
-            job_application = JobApplication(job_id = job_id , user_id = user_id)
+            job_application = JobApplication(job_id = job_id , user_id = user_id , job_status = 'Pending')
             self.db.session.add(job_application)
             self.db.session.commit()
             return True
@@ -58,7 +59,7 @@ class JobSystem :
         """        
         return JobImage.query.filter_by(job_id = job_id).first()
 
-    def DeleteJob(self , id : int , owner_id):
+    def DeleteJob(self , id : int , owner_id) -> bool:
         """ 
         Delete a job from the database.
         Args:
@@ -80,7 +81,7 @@ class JobSystem :
         except:
             return False
 
-    def GetPostedJobs(self , user_id : int):
+    def GetPostedJobs(self , user_id : int) -> list[Job] :
         """ 
         Get all the jobs posted by a user.
         Args:
@@ -91,7 +92,7 @@ class JobSystem :
         """        
         return Job.query.filter_by(user_id = user_id).all()
 
-    def GetAppliedJobs(self , user_id : int):
+    def GetAppliedJobs(self , user_id : int) -> list[Job]:
         """ 
         Get all the jobs applied by a user.
         Args:
@@ -111,5 +112,18 @@ class JobSystem :
         
         return jobs
         
+    def GetJobApplications(self , job_id : int) -> list[JobApplication]:
+        """ 
+        Get all the applications for a job.
+        Args:
+            job_id (int): id of the job
+
+        Returns:
+            list: list of applications.
+        """        
+        return JobApplication.query.filter_by(job_id = job_id).all()
+        
+
+    
 
 jobSystem = JobSystem(db)

@@ -17,6 +17,22 @@
             <li class="list-group-item"><strong>Deadline:</strong> {{ job.job_deadline }}</li>
             <li class="list-group-item"><strong>Posted by:</strong> <a href="{{ url_for('profile_views.view_profile', id=job.user.id) }}">{{ job.user.first_name }} {{ job.user.last_name }}</a></li>
           </ul>
+          <h6 class="card-subtitle mb-2 text-muted">Applications</h6>
+          <ul class="list-group list-group-flush">
+            {% for application, user in applications %}
+              <li class="list-group-item">
+                <a href="{{ url_for('profile_views.view_profile', id=user.id) }}">{{ user.first_name }} {{ user.last_name }}</a>
+                <div class="btn-group float-right" role="group">
+                  <form action="{{ url_for('job_views.reject_application', application_id=application.id) }}" method="POST">
+                    <button type="submit" class="btn btn-danger">Reject</button>
+                  </form>
+                  <form action="{{ url_for('job_views.accept_application', application_id=application.id) }}" method="POST">
+                    <button type="submit" class="btn btn-success">Accept</button>
+                  </form>
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
         </div>
         {% if img %}
           <img src="{{ url_for('job_views.get_job_image', job_id= job.id) }}" alt="Image" class="card-img-top">

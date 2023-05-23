@@ -3,8 +3,9 @@ from flask import Blueprint, render_template, request, flash , redirect , url_fo
 from flask_login import login_required, current_user
 from .ImageManager import  ImageManager
 from .JobSystem import jobSystem
+from .UserSystem import UserSystem
 from .models import Job
-import os 
+
 
 job_views = Blueprint('job_views', __name__)
 
@@ -15,12 +16,12 @@ def browse_jobs():
     return render_template("browse_jobs.html" ,user=current_user ,jobs = jobs )
 
 
-@job_views.route('/jobs/<int:job_id>/apply', methods=['POST'])
+@job_views.route('/jobs/<int:job_id>/apply', methods=['POST' ,'GET'])
 @login_required
 def apply_job(job_id):
     jobSystem.ApplyForJob(job_id, current_user.id)
     print(f"Applied to job with id {job_id}")
-    return redirect(url_for('job_views.browse_jobs'))
+    return redirect(request.referrer)
 
 @job_views.route('/post_job', methods=['GET', 'POST'])
 @login_required
@@ -56,7 +57,18 @@ def post_job():
 def expand_job(job_id):
     job = jobSystem.GetJob(job_id)
     img = get_job_image(job_id)
-    return render_template('job_expanded.html', job=job, user=current_user , img = img)
+
+    applications_list = []
+    if job.user_id == current_user.id :
+        applications = jobSystem.GetJobApplications(job_id) 
+        print(applications)
+        applications_list = []
+        for application in applications :
+            applications_list.append((application , UserSystem.GetUser(application.user_id )))  
+    print("job" , job.user_id)
+    print(current_user.id)
+    print(applications_list)
+    return render_template('job_expanded.html', job=job, user=current_user , img = img , applications = applications_list)
 
 
 @job_views.route('/jobs/<int:job_id>/get-image', methods=['GET'])
@@ -81,4 +93,17 @@ def get_jobs_posted_by_user():
 @login_required
 def delete_job(job_id):
     jobSystem.DeleteJob(job_id , current_user.id)
+    return redirect(request.referrer)
+
+
+@job_views.route('jobs/applications/<int:application_id>/reject', methods=['POST'])
+@login_required
+def reject_application(application_id):
+    #jobSystem.RejectApplication(application_id)
+    return redirect(request.referrer)
+
+@job_views.route('jobs/applications/<int:application_id>/accept', methods=['POST'])
+@login_required 
+def accept_application(application_id): 
+    #jobSystem.AcceptApplication(application_id)
     return redirect(request.referrer)
