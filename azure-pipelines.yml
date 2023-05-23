@@ -11,7 +11,6 @@ pr:
 pool:
   vmImage: ubuntu-latest
 
-
 - stage: UserTesting
   displayName: 'unit tests for User'
   jobs:
@@ -20,9 +19,21 @@ pool:
     - script: |
         pip install -r requirements.txt
       displayName: 'Installing Requirements'
+
+- stage: RunningProgram
+  displayName: 'Running website'
+  jobs:
+  - job: Running Program
+    steps:
     - script: |
         python main.py
-      displayName: 'Running Website for user testing'
+      displayName: 'Running Website'
+
+- stage: UserTesting
+  displayName: 'unit tests for User'
+  jobs:
+  - job: unit_tests
+    steps:
     - script: |
         pytest User_Testing.py
       displayName: 'Build Docker image for unit tests for user'
