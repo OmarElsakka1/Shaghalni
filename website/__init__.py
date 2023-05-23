@@ -1,14 +1,14 @@
-from flask import Flask
+import os
 from os import path
-from .models import db , DB_NAME
+from flask import Flask
 from flask_login import LoginManager
+from .models import db, DB_NAME
 from .helpers import *
 from .views import views
 from .auth import auth
 from .admin import admin
 from .job_views import job_views
 from .profile_views import profile_views
-import os
 
 
 def create_app():
@@ -21,18 +21,16 @@ def create_app():
         app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg', 'gif'}
         #
         db.init_app(app)
-        create_Images_Folder(app)
-
-        
+        create_images_folder(app)
 
         app.register_blueprint(views, url_prefix='/')
         app.register_blueprint(auth, url_prefix='/')
-        app.register_blueprint(job_views , url_prefix = '/' )
-        app.register_blueprint(profile_views , url_prefix = '/' )
+        app.register_blueprint(job_views, url_prefix='/')
+        app.register_blueprint(profile_views, url_prefix='/')
         app.register_blueprint(admin, url_prefix='/admin')
 
         from .models import User
-        
+
         with app.app_context():
             db.create_all()
 
@@ -54,7 +52,8 @@ def create_database(app):
         db.create_all(app=app)
         print('Created Database!')
 
-def create_Images_Folder(app):
+
+def create_images_folder(app):
     if not path.exists('instance/Images'):
         os.mkdir('instance/Images')
         print('Images folder created.')
