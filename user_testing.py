@@ -1,8 +1,6 @@
+from functions import LoginActionTesting, SignupTesting
 
-import pytest
-from Functions import login_action_testing, signup_testing
-
-base_url = "https://python-test-dev-ezzat.azurewebsites.net/"
+BASE_URL = "https://python-test-dev-ezzat.azurewebsites.net" #"http://localhost" # 
 
 def test_sign_up():
     succes_msg = "Account created Successfully!\n×"
@@ -16,10 +14,10 @@ def test_sign_up():
     fail_nogender_msg = "You have to choose a Gender!\n×"
     fail_nousertype_msg = "You have to choose a User Type!\n×"
 
-    path = f"{base_url}/sign-up"
+    path = f"{BASE_URL}/sign-up"
 
     # Testing Good account
-    assert signup_testing(path).apply_signup(msg= succes_msg,
+    assert SignupTesting(path).apply_signup(msg= succes_msg,
                                                         email="1111110@hello.com",
                                                         firstname="Mahrous",
                                                         lastname="Nour",
@@ -27,7 +25,7 @@ def test_sign_up():
                                                         jobdes="I am a frontend developer",gender = "Male",
                                                         usertype="Freelancer") == True
     ## Testing not typical passwords formatting
-    assert signup_testing(path).apply_signup(msg = fail_passmatch_msg,
+    assert SignupTesting(path).apply_signup(msg = fail_passmatch_msg,
                                                         email="1111111@hello.com",
                                                         firstname="Mahrous",
                                                         lastname="Nour",
@@ -35,7 +33,7 @@ def test_sign_up():
                                                         jobdes="I am a frontend developer",gender = "Male",
                                                         usertype="Freelancer") == True
     # Testing Small Password formatting
-    assert signup_testing(path).apply_signup(msg = fail_pass_length_msg,
+    assert SignupTesting(path).apply_signup(msg = fail_pass_length_msg,
                                                         email="1111112@hello.com",
                                                         firstname="Mahrous",
                                                         lastname="Nour",
@@ -43,7 +41,7 @@ def test_sign_up():
                                                         jobdes="I am a frontend developer",gender = "Male",
                                                         usertype="Freelancer") == True
     # Testing Small First name formatting
-    assert signup_testing(path).apply_signup(msg =fail_fistlength_msg,
+    assert SignupTesting(path).apply_signup(msg =fail_fistlength_msg,
                                                         email="1111113@hello.com",
                                                         firstname="M",
                                                         lastname="Nour",
@@ -51,7 +49,7 @@ def test_sign_up():
                                                         jobdes="I am a frontend developer",gender = "Male",
                                                         usertype="Freelancer") == True
     # Testing Small Last name formatting
-    assert signup_testing(path).apply_signup(msg =fail_lastlength_msg,
+    assert SignupTesting(path).apply_signup(msg =fail_lastlength_msg,
                                                         email="1111114@hello.com",
                                                         firstname="Mahrous",
                                                         lastname="N",
@@ -60,7 +58,7 @@ def test_sign_up():
                                                         usertype="Freelancer") == True
     
     # Testing good account
-    assert signup_testing(path).apply_signup(msg= succes_msg,
+    assert SignupTesting(path).apply_signup(msg= succes_msg,
                                                         email="1111115@hello.com",
                                                         firstname="Ali",
                                                         lastname="Mohsen",
@@ -71,7 +69,7 @@ def test_sign_up():
 
 
     # Testing good account
-    assert signup_testing(path).apply_signup(msg = succes_msg,
+    assert SignupTesting(path).apply_signup(msg = succes_msg,
                                                         email="1111116@hello.com",
                                                         firstname="hanan",
                                                         lastname="Abdelrahman",
@@ -80,7 +78,7 @@ def test_sign_up():
                                                         usertype="Both") == True
     
     # Testing sign up with alread existing account
-    assert signup_testing(path).apply_signup(msg = fail_emailexist_msg,
+    assert SignupTesting(path).apply_signup(msg = fail_emailexist_msg,
                                                         email="1111116@hello.com",
                                                         firstname="hanan",
                                                         lastname="Abdelrahman",
@@ -88,7 +86,7 @@ def test_sign_up():
                                                         jobdes="I am a manger",gender = "Female",
                                                         usertype="Both") == True
     # Testing Small job description formatting
-    assert signup_testing(path).apply_signup(msg = fail_jobdes_length_msg,
+    assert SignupTesting(path).apply_signup(msg = fail_jobdes_length_msg,
                                                         email="1111117@hello.com",
                                                         firstname="hanan",
                                                         lastname="Abdelrahman",
@@ -97,7 +95,7 @@ def test_sign_up():
                                                         usertype="Both") == True
 
     # Testing No gender providing
-    assert signup_testing(path).apply_signup(msg = fail_nogender_msg,
+    assert SignupTesting(path).apply_signup(msg = fail_nogender_msg,
                                                         email="1111118@hello.com",
                                                         firstname="hanan",
                                                         lastname="Abdelrahman",
@@ -106,7 +104,7 @@ def test_sign_up():
                                                         usertype="Both") == True
     
     # Testing No user type providing
-    assert signup_testing(path).apply_signup(msg = fail_nousertype_msg,
+    assert SignupTesting(path).apply_signup(msg = fail_nousertype_msg,
                                                         email="1111119@hello.com",
                                                         firstname="hanan",
                                                         lastname="Abdelrahman",
@@ -115,7 +113,7 @@ def test_sign_up():
                                                         gender="Female") == True
   
     # Testing invalid usertype account
-    assert signup_testing(path).apply_signup(msg = fail_nousertype_msg,
+    assert SignupTesting(path).apply_signup(msg = fail_nousertype_msg,
                                                         email="1111120@hello.com",
                                                         firstname="hanan",
                                                         lastname="Abdelrahman",
@@ -124,7 +122,7 @@ def test_sign_up():
                                                         usertype="Ok") == True
     
     # Testing invalid gender account
-    assert signup_testing(path).apply_signup(msg = fail_nogender_msg,
+    assert SignupTesting(path).apply_signup(msg = fail_nogender_msg,
                                                         email="1111121@hello.com",
                                                         firstname="hanan",
                                                         lastname="Abdelrahman",
@@ -133,7 +131,7 @@ def test_sign_up():
                                                         usertype="Freelancer") == True
     
     # Testing good account
-    assert signup_testing(path).apply_signup(msg = succes_msg,
+    assert SignupTesting(path).apply_signup(msg = succes_msg,
                                                         email="3456789@hello.com",
                                                         firstname="Omar",
                                                         lastname="ElSakka",
@@ -145,74 +143,71 @@ def test_sign_up():
 
 
 def initializing_parameters(email, password):
-    login_action_testing(f"{base_url}/login",
-            email, password).do_change_Profile_action(firstname= "Omar",
+    LoginActionTesting(f"{BASE_URL}/login",
+            email, password).do_change_profile_action(firstname= "Omar",
                                                       lastname= "ElSakka",
                                                       jobdes= "I am Initializer",
                                                       gender= "Male",
                                                       usertype="Freelancer")
 
 def test_change_password():
-    email = "1111110@hello.com"
-    password = "1234567"
+    email = "owner1@example1.com"
+    password = "password"
     success_msg = "Password Changed Successfully!\n×"
     page = "changepassword"
     button = "changepasssubmit"
-    path = f"{base_url}/login"
+    path = f"{BASE_URL}/login"
 
-    assert login_action_testing(path,
-                                     email, password).do_change_Password_action(password,password,success_msg,page, button) == True
-    assert login_action_testing(path,
-                                     email, password).do_change_Password_action(password,"1234",success_msg,page, button) == False
-    assert login_action_testing(path,
-                                     email, password).do_change_Password_action("1234",password,success_msg,page, button) == False
+    assert LoginActionTesting(path, email, password).do_change_password_action(password,password,success_msg,page, button) == True
+    assert LoginActionTesting(path, email, password).do_change_password_action(password,"1234",success_msg,page, button) == False
+    assert LoginActionTesting(path, email, password).do_change_password_action("1234",password,success_msg,page, button) == False
 
 
 
 def test_change_profile():
-    email = "1111110@hello.com"
-    password = "1234567"
+    email = "owner1@example1.com"
+    password = "password"
     initializing_parameters(email, password)
-    path = f"{base_url}/login"
+    path = f"{BASE_URL}/login"
 
-    assert login_action_testing(path,
-            email, password).do_change_Profile_action(newemail ="3456789@asljhflksdfjb.com",
+    assert LoginActionTesting(path,
+            email, password).do_change_profile_action(newemail ="3456789@asljhflksdfjb.com",
                                                       firstname= "Ali",
                                                       lastname= "ElSakka2",
                                                       jobdes= "I am Engineer") == True
     
-    assert login_action_testing(path,
-            "3456789@asljhflksdfjb.com", password).do_change_Profile_action(firstname= "Omar",
+    assert LoginActionTesting(path,
+            "3456789@asljhflksdfjb.com", password).do_change_profile_action(firstname= "Omar",
                                                       jobdes= "I am C Programmer") == True
     
-    assert login_action_testing(path,
-            "3456789@asljhflksdfjb.com", password).do_change_Profile_action(newemail =email,
+    assert LoginActionTesting(path,
+            "3456789@asljhflksdfjb.com", password).do_change_profile_action(newemail =email,
                                                       jobdes= "I am Python Programmer") == True
         
-    assert login_action_testing(path,
-            email, password).do_change_Profile_action(firstname= "Mahmoud",
+    assert LoginActionTesting(path,
+            email, password).do_change_profile_action(firstname= "Mahmoud",
                                                       jobdes= "I am C Programmer",
                                                       gender = "Female") == True
     
-    assert login_action_testing(path,
-            email, password).do_change_Profile_action(firstname= "Ali",
+    assert LoginActionTesting(path,
+            email, password).do_change_profile_action(firstname= "Ali",
                                                       jobdes= "I am python Programmer",
                                                       gender = "Haha") == False
     
-    assert login_action_testing(path,
-            email, password).do_change_Profile_action(newemail="3456789@asljhflksdfjb.com",
+    assert LoginActionTesting(path,
+            email, password).do_change_profile_action(newemail="3456789@asljhflksdfjb.com",
                                                       lastname= "Omar",
                                                       jobdes= "I am a data analyst",
                                                       gender= "Male",
                                                       usertype= "BusinessOwner") == True
     
-    assert login_action_testing(path,
-            "3456789@asljhflksdfjb.com", password).do_change_Profile_action(lastname= "Medhat",
+    assert LoginActionTesting(path,
+            "3456789@asljhflksdfjb.com", password).do_change_profile_action(lastname= "Medhat",
                                                       jobdes= "I am an Engineer",
                                                       usertype= "haha") == False
     
-    assert login_action_testing(path,
-            "3456789@asljhflksdfjb.com", password).do_change_Profile_action(newemail =email,
+    assert LoginActionTesting(path,
+            "3456789@asljhflksdfjb.com", password).do_change_profile_action(newemail =email,
                                                       firstname= "Omar",
                                                       lastname= "ElSakka",
                                                       jobdes= "I am C Programmer") == True
@@ -221,9 +216,9 @@ def test_change_profile():
 
 
 def test_log_out():
-    email = "1111110@hello.com"
-    password = "1234567"
-    assert login_action_testing(f"{base_url}/login",email, password).do_logout_action()
+    email = "owner1@example1.com"
+    password = "password"
+    assert LoginActionTesting(f"{BASE_URL}/login",email, password).do_logout_action()
 
 
 
