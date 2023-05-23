@@ -21,6 +21,31 @@ stages:
         echo we will do unit tests here
       displayName: 'Build Docker image for unit tests'
 
+- stage: UserTesting
+  displayName: 'unit tests for User'
+  jobs:
+  - job: unit_tests
+    steps:
+    - script: |
+        python main.py
+      displayName: 'Running Website for user testing'
+    - script: |
+        pytest User_Testing.py
+      displayName: 'Build Docker image for unit tests for user'
+
+
+- stage: AdminTesting
+  displayName: 'unit tests for Admin'
+  jobs:
+  - job: unit_tests
+    steps:
+    - script: |
+        python main.py
+      displayName: 'Running Website for admin testing'
+    - script: |
+        pytest Admin_Testing.py
+      displayName: 'Build Docker image for unit tests for admin'
+
 - stage: build_push
   displayName: 'Build and push to docker hub'
   jobs:

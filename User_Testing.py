@@ -152,8 +152,8 @@ def initializing_parameters(email, password):
                                                       usertype="Freelancer")
 
 def test_change_password():
-    email = "3456789@hello.com"
-    password = "sdfghjk"
+    email = "1111110@hello.com"
+    password = "1234567"
     success_msg = "Password Changed Successfully!\n×"
     page = "changepassword"
     button = "changepasssubmit"
@@ -169,8 +169,8 @@ def test_change_password():
 
 
 def test_change_profile():
-    email = "3456789@hello.com"
-    password = "sdfghjk"
+    email = "1111110@hello.com"
+    password = "1234567"
     initializing_parameters(email, password)
     path = "http://localhost/login"
 
@@ -220,8 +220,8 @@ def test_change_profile():
 
 
 def test_log_out():
-    email = "3456789@hello.com"
-    password = "sdfghjk"
+    email = "1111110@hello.com"
+    password = "1234567"
     assert login_action_testing("http://localhost/login",email, password).do_logout_action()
 
 
