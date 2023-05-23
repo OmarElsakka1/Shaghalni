@@ -11,7 +11,7 @@ pr:
 pool:
   vmImage: ubuntu-latest
 stages:
-- stage: Installing Requirements
+- stage: Installing_Requirements
   displayName: 'unit tests for User'
   jobs:
   - job: unit_tests
@@ -21,7 +21,7 @@ stages:
       displayName: 'Installing Requirements'
 
 
-- stage: UserTesting
+- stage: Admin_User_Testing
   displayName: 'unit tests for User and admin'
   jobs:
   - job: unit_tests
