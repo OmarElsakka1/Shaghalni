@@ -5,6 +5,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from time import sleep      
 
+
 class adapter():
     def __init__(self,Pathlogin,Pathform):
         self.Pathlogin = Pathlogin
