@@ -220,13 +220,13 @@ class ChangeProfile():
                 driver.find_element(By.ID, "changeprofilesubmit").click()
                 element = driver.find_element(By.XPATH, "/html/body")
                 print(element)
-                Is_all_changed = True
+                is_all_changed = True
                 for i in range(len(list_msgs)):
                     if (list_msgs[i] not in element.text): 
-                        Is_all_changed = False
+                        is_all_changed = False
 
                 CloseDriver().do_quit(driver)
-                return Is_all_changed
+                return is_all_changed
             except:
                 CloseDriver().do_quit(driver)
                 return False
