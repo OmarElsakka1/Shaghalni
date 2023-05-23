@@ -1,0 +1,31 @@
+{% extends "base.html" %} {% block title %} Make submission {% endblock %} {% block
+    content %}
+    <head>
+      <title>Make a submission</title>
+    </head>
+    <body>
+      <div class="container">
+        <h2 class="text-center my-5">Make submission</h1>
+        <div class="row justify-content-center">
+          <div class="col-md-8 col-lg-6">
+            <form  method="POST" enctype="multipart/form-data">
+
+
+              <div class="form-group">
+                <label for="submission_title">Submission title:</label>
+                <input type="text" class="form-control" id="submission_title" name="submission_title" required>
+              </div>
+
+              <div class="form-group">
+                <label class="form-control-label">Attach image</label>
+                <input type="file"  name="file">
+              </div>
+
+              <button type="submit" class="btn btn-primary">submit</button>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </body>
+{% endblock %}  

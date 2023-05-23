@@ -7,7 +7,7 @@
   <form method="POST" enctype="multipart/form-data">
 
     <div class="form-group">
-      <img src="{{ url_for('auth.get_image', user_id=current_user.id) }}" alt="Profile Image" width="200" height="200">
+      <img src="{{ url_for('profile_views.get_image' , user_id = current_user.id) }}" alt="Profile Image" width="200" height="200">
     </div>
     
     <div class="form-group">

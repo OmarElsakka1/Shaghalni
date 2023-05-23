@@ -5,6 +5,8 @@ from . import db   ##means from __init__.py import db
 from flask_login import login_user, login_required, logout_user, current_user
 from .helpers import CheckTypicality, CheckLength, Passwords, Check_email
 
+from .UserSystem import userSystem
+
 
 from flask import send_file
 
@@ -136,9 +138,8 @@ def change_profile():
             filename = file.filename
             img_format = filename[-3:]
             if (filename and ( (filename[-3:] in ['png', 'jpg', 'gif']) or (filename[-4:] == 'jpeg') ) ):
-                current_user.file = file
-                file.save('instance/Images/{}.{}'.format(current_user.id,img_format))
-                flash('Image uploaded successfully', category='success')
+                if userSystem.ChangePfp(current_user , file) :
+                    flash('Image uploaded successfully', category='success')
             else:
                 flash('Invalid Image format (Should be .jpg).', category='error')
         

@@ -26,12 +26,13 @@
                       <button type="submit" class="btn btn-primary">View</button>
                     </form>
                   </div>
-                  
+                  {% if user.usertype != 'Business Owner' %}
                   <div class="col-md-6">
                     <form action="{{ url_for('job_views.apply_job', job_id=job.id) }}" method="POST">
                       <button type="submit" class="btn btn-primary">Apply</button>
                     </form>
                   </div>
+                  {% endif %}
                 </div>
               </div>
             </div>

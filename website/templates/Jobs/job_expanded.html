@@ -7,7 +7,9 @@
 
       <div class="card mb-3">
         <div class="card-body">
+          {% if user.usertype != 'Business Owner' %}
           <a href="{{ url_for('job_views.apply_job', job_id=job.id) }}" class="btn btn-primary mb-3">Apply</a>
+          {% endif %}
           <h4 class="card-title">{{ job.job_name }}</h5>
           <h5 class="card-title">{{ job.job_description }}</h5>
           <h6 class="card-subtitle mb-2 text-muted">Details</h6>
@@ -23,12 +25,14 @@
               <li class="list-group-item">
                 <a href="{{ url_for('profile_views.view_profile', id=user.id) }}">{{ user.first_name }} {{ user.last_name }}</a>
                 <div class="btn-group float-right" role="group">
+                  {% if application.job_status == 'Pending' %}
                   <form action="{{ url_for('job_views.reject_application', application_id=application.id) }}" method="POST">
                     <button type="submit" class="btn btn-danger">Reject</button>
                   </form>
                   <form action="{{ url_for('job_views.accept_application', application_id=application.id) }}" method="POST">
                     <button type="submit" class="btn btn-success">Accept</button>
                   </form>
+                  {% endif %}
                 </div>
               </li>
             {% endfor %}

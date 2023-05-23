@@ -18,10 +18,10 @@ class User(db.Model, UserMixin):
     first_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
     gender = db.Column(db.String(10), nullable=False)
-    usertype = db.Column(db.String(10), nullable=False)
+    usertype = db.Column(db.String(10), nullable=False) # Freelancer , Business Owner , Both
     about = db.Column(db.String(400))
     jobs = db.relationship('Job' , backref='user')
-    file = db.Column(db.LargeBinary)
+    image_name = db.Column(db.String(150))
 
 
 class Job(db.Model):
@@ -32,8 +32,8 @@ class Job(db.Model):
     job_details = db.Column(db.String(2000) )
     job_date = db.Column(db.DateTime(timezone=True), default=func.now() ,nullable =False)
     job_deadline = db.Column(db.DateTime(timezone=True), nullable =False )
-    
     user_id = db.Column(db.Integer, db.ForeignKey('user.id') , nullable =False)
+    applications = db.relationship('JobApplication' , backref = 'job')
 
 
 class Admin(db.Model, UserMixin):
@@ -51,9 +51,16 @@ class JobApplication(db.Model) :
     id = db.Column(db.Integer, primary_key=True)
     job_id = db.Column(db.Integer, db.ForeignKey('job.id') , nullable =False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id') , nullable =False)
-    job_status = db.Column(db.String(10)  ,nullable =False)  # Pending , Accepted , Rejected
+    job_status = db.Column(db.String(10)  ,nullable =False)  # Pending , Accepted ,Submitted , Rejected
+    submissions = db.relationship('ApplicationSubmission' , backref='application')
 
 class JobImage(db.Model) :
     id = db.Column(db.Integer, primary_key=True)
     job_id = db.Column(db.Integer, db.ForeignKey('job.id') , nullable =False)
     image_path = db.Column(db.String(200) , nullable =False)
+
+
+class ApplicationSubmission(db.Model) :
+    id = db.Column(db.Integer, primary_key=True)
+    file_path = db.Column(db.String(200) , nullable =False)
+    application_id = db.Column(db.Integer , db.ForeignKey(JobApplication.id) , nullable = False)

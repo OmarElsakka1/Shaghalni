@@ -27,13 +27,24 @@ def populate_database():
         user2 = User(email='owner2@example2.com', password=generate_password_hash('password', method='sha256'), first_name='Jane', last_name='Smith', gender='Female', usertype='Business Owner', about='Business Owner')
         db.session.add_all([user1 , user2])
         db.session.commit()
-
+    except:
+      db.session.rollback()
+      print("Error in creating : batch1")
+    
+    try :
         # create job seeker users
         user3 = User(email='seeker1@example.com', password=generate_password_hash('password', method='sha256'), first_name='Alice', last_name='Johnson', gender='Female', usertype='Freelancer', about='Software Developer')
         user4 = User(email='seeker2@example.com', password=generate_password_hash('password', method='sha256'), first_name='Bob', last_name='Williams', gender='Male', usertype='Freelancer', about='Data Analyst')
         db.session.add_all([user3, user4])
         db.session.commit()
-        
+    
+    except IntegrityError as e :
+        # print error details
+        print(e)
+        db.session.rollback()
+        print('Database already populated.')   
+
+    try :
         # create jobs
         owner1_jobs = [
         Job(job_name='Software Developer', job_payment=5000, job_description='Develop software', job_deadline=datetime.utcnow() + timedelta(days=7), user=user1),

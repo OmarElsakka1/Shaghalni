@@ -41,7 +41,7 @@ stages:
         Action: 'Start Azure App Service'
         WebAppName: 'python-test-dev-ezzat'
     - script: |
-        while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' https://python-test-dev-ezzat.azurewebsites.net/)" != "200" ]]; do sleep 5; done
+        while [[ "$(curl -s -o /dev/null -w '%{http_code}' https://python-test-dev-ezzat.azurewebsites.net/)" != "200" && "$(curl -s -o /dev/null -w '%{http_code}' https://python-test-dev-ezzat.azurewebsites.net/)" != "302" ]]; do sleep 5; done
       displayName: Wait for testing environment to become available
 
   - job: run_acceptance_tests

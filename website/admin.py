@@ -1,11 +1,12 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
-from .models import User, Admin
 from werkzeug.security import generate_password_hash
-from . import db   ##means from __init__.py import db
+from .models import User, Admin
+from . import db   
 from flask_login import login_user, login_required, logout_user, current_user
 from .helpers import CheckTypicality, CheckLength, Passwords, Check_email
 import pandas as pd
 from flask import send_file
+from .UserSystem import userSystem
 import matplotlib.pyplot as plt
 
 
@@ -145,10 +146,11 @@ def remove_user():
         if user:
             print(user)
             print(user.email)
-            db.session.delete(user)
-            db.session.commit()
-            flash('Deleted Successfully.', category='success')
-            return redirect(url_for('admin.dashboard'))
+            if userSystem.DeleteUser(user.id) :
+                flash('Deleted Successfully.', category='success')
+                return redirect(url_for('admin.dashboard'))
+            else : 
+                flash("Error" , category='error')
 
     return render_template("Admin_delete_user.html", user=current_user)
 
