@@ -1,32 +1,31 @@
+from time import sleep  
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from time import sleep      
+    
 
 
 
-class adapter():
-    def __init__(self,Pathlogin,Pathform):
-        self.Pathlogin = Pathlogin
-        self.Pathform = Pathform
+class Adapter():
+    def __init__(self,pathlogin,pathform):
+        self.pathlogin = pathlogin
+        self.pathform = pathform
 
     def do_login_add_admin(self, email = None, password = None, msg = None,newemail = None,firstname = None,
                lastname = None, pass1 = None, pass2 = None):
-        driver = login_testing(self.Pathlogin).do_login(email,password)
+        driver = LoginTesting(self.pathlogin).do_login(email,password)
         driver.find_element(By.ID, "adminadd_admin").click()
-        return signup_testing(self.Pathform, driver).apply_signup(msg = msg, email = newemail,firstname = firstname,
+        return SignupTesting(self.pathform, driver).apply_signup(msg = msg, email = newemail,firstname = firstname,
                                                    lastname= lastname,pass1 = pass1, pass2= pass2)
 
-class signup_testing():
-    def __init__(self, Path, driver = None):
-        self.Path = Path
+class SignupTesting():
+    def __init__(self, path, driver = None):
+        self.path = path
         if (driver == None):
             options = Options()
             options.add_experimental_option("excludeSwitches",["enable-logging"])
             driver = webdriver.Chrome(options = options)
-            driver.get(self.Path)
+            driver.get(self.path)
             self.driver = driver
         else:
             self.driver = driver
@@ -68,16 +67,16 @@ class signup_testing():
         self.driver.find_element(By.ID, "submit").click()
         element = self.driver.find_element(By.XPATH, "/html/body")
         if msg in element.text:
-            close_driver().do_quit(self.driver)
+            CloseDriver().do_quit(self.driver)
             return True
         else:
             return False
 
 
-class login_action_testing():
-    def __init__(self,Path, email, password):
-        self.Path = Path
-        self.driver = login_testing(self.Path).do_login(email, password)
+class LoginActionTesting():
+    def __init__(self,path, email, password):
+        self.path = path
+        self.driver = LoginTesting(self.path).do_login(email, password)
 
     def __Make_sure_log_in(self):
         msg = "Logged in successfully!\n×"
@@ -87,15 +86,15 @@ class login_action_testing():
             print("Failed to Login")
             return False
         
-    def do_change_Password_action(self, oldpass, newpass, msg,page, button):
+    def do_change_password_action(self, oldpass, newpass, msg,page, button):
         if (self.__Make_sure_log_in()):
-            return change_Password().do_change_password(self.driver, oldpass, newpass,msg,page, button)
+            return ChangePassword().do_change_password(self.driver, oldpass, newpass,msg,page, button)
         else:
             return False
         
-    def do_change_Profile_action(self, newemail=None,firstname=None,lastname=None, jobdes = None, gender = None, usertype = None):
+    def do_change_profile_action(self, newemail=None,firstname=None,lastname=None, jobdes = None, gender = None, usertype = None):
         if (self.__Make_sure_log_in()):
-            return change_Profile().do_apply(self.driver, newemail,firstname,lastname, jobdes, gender, usertype)
+            return ChangeProfile().do_apply(self.driver, newemail,firstname,lastname, jobdes, gender, usertype)
         else:
             return False
     
@@ -106,7 +105,7 @@ class login_action_testing():
             return False
         
 
-class change_Password():
+class ChangePassword():
     def __init__(self):
         pass
     def do_change_password(self,driver,oldpass,newpass, msg,page, button):
@@ -119,31 +118,31 @@ class change_Password():
             element = driver.find_element(By.XPATH, "/html/body")
             #driver.quit()
             if msg in element.text: 
-                close_driver().do_quit(driver)
+                CloseDriver().do_quit(driver)
                 return True
             else:
-                close_driver().do_quit(driver)
+                CloseDriver().do_quit(driver)
                 return False 
         except:
-            close_driver().do_quit(driver)
+            CloseDriver().do_quit(driver)
             return False
 
 
-class login_testing():
-    def __init__(self,Path):
-        self.Path = Path  
+class LoginTesting():
+    def __init__(self,path):
+        self.path = path  
 
     def do_login(self,email, password):
         options = Options()
         options.add_experimental_option("excludeSwitches",["enable-logging"])
         driver = webdriver.Chrome(options = options)
-        driver.get(self.Path) 
+        driver.get(self.path) 
         driver.find_element(By.ID, "email").send_keys(email)
         driver.find_element(By.ID, "password").send_keys(password)
         driver.find_element(By.ID, "submitlogin").click()
         return driver
 
-class change_Profile():
+class ChangeProfile():
     def __init__(self):
         pass
     def __access_page(self,driver):
@@ -197,39 +196,39 @@ class change_Profile():
 
     def do_apply(self,driver,newemail=None,firstname=None,lastname=None, jobdes = None, gender = None, usertype = None):
         if (self.__access_page(driver)):
-            List_msgs = []
+            list_msgs = []
             if (newemail != None):
                 self.change_email(driver,newemail)
-                List_msgs.append("Email changed Successfully!\n×")
+                list_msgs.append("Email changed Successfully!\n×")
             if (firstname != None):
                 self.change_first_name(driver,firstname)
-                List_msgs.append("First name changed Successfully!\n×")
+                list_msgs.append("First name changed Successfully!\n×")
             if (lastname != None):
                 self.change_last_name(driver,lastname)
-                List_msgs.append("Last name changed Successfully!\n×")
+                list_msgs.append("Last name changed Successfully!\n×")
             if (jobdes != None):
                 self.change_job_des(driver,jobdes)
-                List_msgs.append("Job Description updated Successfully!\n×")
+                list_msgs.append("Job Description updated Successfully!\n×")
             if (gender != None):
                 self.change_gender(driver,gender)
-                List_msgs.append("Gender updated Successfully!\n×")
+                list_msgs.append("Gender updated Successfully!\n×")
             if (usertype != None):
                 self.change_user_type(driver,usertype)
-                List_msgs.append("User Type updated Successfully!\n×")
+                list_msgs.append("User Type updated Successfully!\n×")
 
             try:
                 driver.find_element(By.ID, "changeprofilesubmit").click()
                 element = driver.find_element(By.XPATH, "/html/body")
                 print(element)
                 Is_all_changed = True
-                for i in range(len(List_msgs)):
-                    if (List_msgs[i] not in element.text): 
+                for i in range(len(list_msgs)):
+                    if (list_msgs[i] not in element.text): 
                         Is_all_changed = False
 
-                close_driver().do_quit(driver)
+                CloseDriver().do_quit(driver)
                 return Is_all_changed
             except:
-                close_driver().do_quit(driver)
+                CloseDriver().do_quit(driver)
                 return False
         else:
             return False
@@ -241,12 +240,12 @@ class logout_testing():
         driver.find_element(By.ID, "logout").click()
         if(driver.current_url == "http://localhost/login"):
             sleep(1)
-            close_driver().do_quit(driver)
+            CloseDriver().do_quit(driver)
             return True
         else:
             return False
     
-class close_driver():
+class CloseDriver():
     def __init__(self):
         pass
     def do_quit(self,driver):
