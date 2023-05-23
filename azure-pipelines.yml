@@ -18,8 +18,8 @@ stages:
   - job: unit_tests
     steps:
     - script: |
-        echo we will do unit tests here
-      displayName: 'Build Docker image for unit tests'
+        pip install -r requirements.txt
+      displayName: 'Install Requirements'
 
 - stage: UserTesting
   displayName: 'unit tests for User'
