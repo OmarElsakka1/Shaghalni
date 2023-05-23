@@ -1,13 +1,13 @@
+from flask import send_file
+from flask_login import login_user, login_required, logout_user, current_user
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from werkzeug.security import generate_password_hash
-from .models import User, Admin
-from . import db   
-from flask_login import login_user, login_required, logout_user, current_user
-from .helpers import CheckTypicality, CheckLength, Passwords, Check_email
 import pandas as pd
-from flask import send_file
-from .UserSystem import userSystem
 import matplotlib.pyplot as plt
+from .models import User, Admin
+from . import db
+from .helpers import CheckLength, Passwords, CheckEmail
+from .UserSystem import userSystem
 
 
 admin = Blueprint('admin', __name__)
@@ -17,6 +17,7 @@ admin = Blueprint('admin', __name__)
 def func():
     return redirect(url_for('admin.login'))
 
+
 @admin.route('/adminlogin', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
@@ -25,15 +26,20 @@ def login():
 
         user = Admin.query.filter_by(email=email).first()
         if user:
-            if Passwords(user.password,password).Is_same('Logged in successfully!', 'Incorrect password, try again.'):
+            if Passwords(
+                    user.password,
+                    password).is_same(
+                    'Logged in successfully!',
+                    'Incorrect password, try again.'):
                 login_user(user, remember=True)
 
-                #return redirect(url_for('admin.add_acount'))
+                # return redirect(url_for('admin.add_acount'))
                 return redirect(url_for('admin.dashboard'))
         else:
             flash('Email does not exist.', category='error')
 
     return render_template("Admin_login.html", user=current_user)
+
 
 @admin.route('/adminlogout')
 @login_required
@@ -50,7 +56,7 @@ def dashboard():
     df = pd.DataFrame(user_dicts)
     gender_counts = df['gender'].value_counts()
     gender_counts_df = gender_counts.to_frame().reset_index()
-    
+
     usertype_counts = df['usertype'].value_counts()
     usertype_counts_df = usertype_counts.to_frame().reset_index()
 
@@ -68,17 +74,21 @@ def dashboard():
         plt.ylabel('Count')
         plt.title('User Types Counts')
         plt.savefig('instance/Statistics/UserDistribution.png')
-    except:
+    except BaseException:
         pass
 
-    return render_template("Admin_dashboard.html",usertype_counts_df= usertype_counts_df, gender_counts_df=gender_counts_df, user=current_user)
+    return render_template(
+        "Admin_dashboard.html",
+        usertype_counts_df=usertype_counts_df,
+        gender_counts_df=gender_counts_df,
+        user=current_user)
+
 
 @admin.route('/adminusers', methods=['GET', 'POST'])
 @login_required
 def admin_users():
     users = User.query.all()
-    return render_template('Admin_users.html', users=users, user = current_user)
-
+    return render_template('Admin_users.html', users=users, user=current_user)
 
 
 @admin.route('/adminadd_admin', methods=['GET', 'POST'])
@@ -89,21 +99,28 @@ def add_admin():
         first_name = request.form.get('firstName')
         last_name = request.form.get('lastName')
         password1 = request.form.get('password1')
-        password2 = request.form.get('password2')        
+        password2 = request.form.get('password2')
 
         user = Admin.query.filter_by(email=email).first()
-        IsGoodpass = Passwords(password1, password2).is_good()
-        IsGoodemail = Check_email().is_in_form(email, showmsg = True)
+        is_good_pass = Passwords(password1, password2).is_good()
+        is_good_email = CheckEmail().is_in_form(email, showmsg=True)
 
-        firstcheck = CheckLength(2,"First name").is_short(first_name)
-        lastcheck = CheckLength(2,"Last name").is_short(last_name)
-        
+        firstcheck = CheckLength(2, "First name").is_short(first_name)
+        lastcheck = CheckLength(2, "Last name").is_short(last_name)
+
         if user:
             flash('Email already exists!', category='error')
-        elif firstcheck or lastcheck or not(IsGoodemail and IsGoodpass):  # Demorgan
+        # Demorgan
+        elif firstcheck or lastcheck or not(is_good_email and is_good_pass):
             pass
         else:
-            new_user = Admin(email=email, first_name=first_name, last_name = last_name, password=generate_password_hash(password1, method='sha256'))
+            new_user = Admin(
+                email=email,
+                first_name=first_name,
+                last_name=last_name,
+                password=generate_password_hash(
+                    password1,
+                    method='sha256'))
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user, remember=True)
@@ -122,11 +139,13 @@ def change_password():
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
 
-        user = Admin.query.filter_by(id=current_user.id).first()  
+        user = Admin.query.filter_by(id=current_user.id).first()
 
-        IsGood = Passwords(password1, password2).is_good()
-        IsOldCorrect = Passwords(user.password, password).Is_same("",'Old Password is wrong.')
-        if (IsGood and IsOldCorrect):
+        is_good = Passwords(password1, password2).is_good()
+        is_old_correct = Passwords(
+            user.password, password).is_same(
+            "", 'Old Password is wrong.')
+        if (is_good and is_old_correct):
             new_password_hash = generate_password_hash(password1)
             user.password = new_password_hash
             db.session.commit()
@@ -136,24 +155,22 @@ def change_password():
     return render_template("Admin_change_password.html", user=current_user)
 
 
-
 @admin.route('/adminremove_user', methods=['GET', 'POST'])
 @login_required
 def remove_user():
     if request.method == 'POST':
-        email = request.form.get('email')       
+        email = request.form.get('email')
         user = User.query.filter_by(email=email).first()
         if user:
             print(user)
             print(user.email)
-            if userSystem.DeleteUser(user.id) :
+            if userSystem.DeleteUser(user.id):
                 flash('Deleted Successfully.', category='success')
                 return redirect(url_for('admin.dashboard'))
-            else : 
-                flash("Error" , category='error')
+            else:
+                flash("Error", category='error')
 
     return render_template("Admin_delete_user.html", user=current_user)
-
 
 
 @admin.route('/adminbrowseposts', methods=['GET', 'POST'])
@@ -162,12 +179,9 @@ def browseposts():
     return render_template("Admin_browse_posts.html", user=current_user)
 
 
-
-
 @admin.route('/image/<string:name>')
 @login_required
 def get_image(name):
-    return send_file(f'../instance/Statistics/{name}.png', mimetype='image/jpg')
-
-            
-
+    return send_file(
+        f'../instance/Statistics/{name}.png',
+        mimetype='image/jpg')
