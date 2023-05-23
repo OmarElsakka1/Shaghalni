@@ -8,7 +8,7 @@
     <div class="card-body">
       <div class="row">
         <div class="col-md-3">
-          <img src="{{ result.photo_url }}" class="img-fluid rounded" alt="{{ result.first_name }}'s photo">
+          <img src="{{ url_for('profile_views.get_image' , user_id = result.id) }}" class="img-fluid rounded" alt="{{ result.first_name }}'s photo">
         </div>
         <div class="col-md-9">
           <h5 class="card-title">{{ loop.index0+1 }}. {{ result.first_name }} {{ result.last_name }}</h5>

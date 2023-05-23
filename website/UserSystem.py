@@ -6,7 +6,10 @@ from . import db
 class UserSystem :
 
     @staticmethod
-    def GetUser( id) :
+    def GetUser( id) -> User:
+        '''
+        Returns the user with the given id.
+        '''
         return User.query.get_or_404(id)
     
     def SearchUsersByName( name : str) :

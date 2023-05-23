@@ -14,7 +14,7 @@
             <div class="card-body">
               <div class="row">
                 <div class="col-md-4">
-                  <img src="{{ url_for('static', filename='profile_pic.jpg') }}" class="img-fluid rounded-circle">
+                  <img src="{{ url_for('profile_views.get_image' , user_id = target.id) }}" class="img-fluid rounded-circle">
                 </div>
                 <div class="col-md-8">
                   <h4 class="font-weight-bold">{{ target.first_name }} {{ target.last_name }}</h4>

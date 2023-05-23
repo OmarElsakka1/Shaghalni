@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import Blueprint, render_template, request, flash , redirect , url_for , session
+from flask import Blueprint, render_template, request, flash , redirect , url_for , session , send_file
 from flask_login import login_required, current_user
 from .ImageManager import  ImageManager
 from .JobSystem import jobSystem
@@ -29,6 +29,7 @@ def post_job():
     if request.method == 'POST':
         job_name = request.form['job_name']
         job_description = request.form['job_description']
+        job_details = request.form['details']
         job_payment = request.form['job_payment']
         job_deadline = request.form['job_deadline']
         file = request.files['img']
@@ -40,7 +41,7 @@ def post_job():
                 return render_template('post_job.html' ,user = current_user)
         else :
             file = None
-        job = Job(job_name=job_name, job_description=job_description, job_payment=job_payment,  job_deadline=job_deadline, user=current_user)
+        job = Job(job_name=job_name, job_description=job_description,  job_details = job_details,job_payment=job_payment,  job_deadline=job_deadline, user=current_user)
         if  jobSystem.PostJob(job , file):
             flash('Your job has been posted!', 'success')
             return redirect(url_for('job_views.browse_jobs'))
@@ -54,12 +55,16 @@ def post_job():
 @login_required
 def expand_job(job_id):
     job = jobSystem.GetJob(job_id)
+    img = get_job_image(job_id)
+    return render_template('job_expanded.html', job=job, user=current_user , img = img)
+
+
+@job_views.route('/jobs/<int:job_id>/get-image', methods=['GET'])
+@login_required
+def get_job_image(job_id):
     job_img = jobSystem.GetJobImage(job_id)
-    print(job_img.image_path)
-    print(os.getcwd())
     if job_img :
-        img_path = session.get(job_img.image_path)
+        print(job_img.image_path)
+        return send_file('../' + job_img.image_path, mimetype='image/jpg')
     else :
-        img_path = None
-    print(img_path)
-    return render_template('job_expanded.html', job=job, user=current_user , img = img_path)
+        return None

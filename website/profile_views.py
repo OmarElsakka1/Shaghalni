@@ -1,12 +1,10 @@
 from datetime import datetime
 import re
-from flask import Blueprint, render_template, request, flash , redirect , url_for , session
+from flask import Blueprint, render_template, send_file
 from flask_login import login_required, current_user
-from .ImageManager import  ImageManager
+
 from .UserSystem import UserSystem
-from .JobSystem import jobSystem
-from .models import User
-import os 
+
 
 
 profile_views = Blueprint('profile_views', __name__)
@@ -24,3 +22,16 @@ def view_profile(id : int) :
 def search_profile(name : str) :
     users = UserSystem.SearchUsersByName(name)
     return render_template('search.html',  user=current_user,search_prompt = name ,found=users)
+
+
+@profile_views.route('/users/<int:user_id>/get-image', methods=['GET'])
+@login_required
+def get_image(user_id : int) :
+    user = UserSystem.GetUser(user_id)
+    if user is None :
+        return "User not found"
+    if user.file :
+        print(user.file)
+        return send_file( user.file, mimetype='image/jpg')
+    else :
+        return send_file('static/Images/default_profile_image.png' , mimetype='image/jpg')

@@ -75,6 +75,37 @@ class JobSystem :
             return True
         except:
             return False
+
+    def GetPostedJobs(self , user_id : int):
+        """ 
+        Get all the jobs posted by a user.
+        Args:
+            user_id (int): id of the user
+
+        Returns:
+            list: list of jobs.
+        """        
+        return Job.query.filter_by(user_id = user_id).all()
+
+    def GetAppliedJobs(self , user_id : int):
+        """ 
+        Get all the jobs applied by a user.
+        Args:
+            user_id (int): id of the user
+
+        Returns:
+            list: list of jobs.
+        """        
+        applications =  JobApplication.query.filter_by(user_id = user_id).all()
+
+        # ge the jops corresponding to the applications
+        jobs = []
+        for application in applications :
+            job = Job.query.get(application.job_id)
+            if job :
+                jobs.append(job)
+        
+        return jobs
         
 
 jobSystem = JobSystem(db)
