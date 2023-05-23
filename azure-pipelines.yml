@@ -17,7 +17,7 @@ stages:
   - job: unit_tests
     steps:
     - script: |
-        pip install -r requirements.txt
+        echo Wait ana stpn
       displayName: 'Installing Requirements'
 
 
@@ -26,6 +26,9 @@ stages:
   jobs:
   - job: unit_tests
     steps:
+    - script: |
+        pip install -r requirements.txt
+      displayName: 'Installing Requirements'
     - script: |
         python main.py
       displayName: 'Running Website'
