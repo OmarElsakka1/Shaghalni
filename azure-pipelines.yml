@@ -52,8 +52,11 @@ stages:
         pip install -U pytest requests
       displayName: Install requirements
     - script: |
-        pytest acceptance_tests.py
-      displayName: Run acceptance tests
+        pytest user_testing.py
+      displayName: Run user tests
+    - script: |
+        pytest admin_testing.py
+      displayName: Run admin tests
     - script: |
         echo 'All tests passed successfully!'
       displayName: Success message
