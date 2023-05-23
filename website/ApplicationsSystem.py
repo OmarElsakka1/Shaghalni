@@ -1,8 +1,10 @@
+from distutils.log import error
 from .models import *
 from . import db
 from .SingletonMeta import SingletonMeta
+from .JobSystem import jobSystem
 
-class ApplicationsSystem(SingletonMeta):
+class ApplicationsSystem(metaclass=SingletonMeta):
     def __init__(self , db) -> None:
         self.db = db
 
@@ -14,13 +16,17 @@ class ApplicationsSystem(SingletonMeta):
         self.db.session.add(job_application)
         self.db.session.commit()
 
-    def AcceptApplication(self, job_application_id : int) -> None :
+    def AcceptApplication(self, job_application_id : int) -> bool :
+        print(f"Accepting application with id {job_application_id}...")
         try :
             job_application = JobApplication.query.filter_by(id = job_application_id).first()
-            job_application.status = "Accepted"
+            print(job_application)
+            job_application.job_status = "Accepted"
             self.db.session.commit()
+            print("Success")
             return True
-        except:
+        except error as e:
+            print(e)
             return False
 
     def GetApplicationsByUser(self , user_id : int) -> list[JobApplication] :
@@ -36,3 +42,4 @@ class ApplicationsSystem(SingletonMeta):
 
 
 applicationsSystem = ApplicationsSystem(db)
+jobSystem.listeners.append(applicationsSystem) 

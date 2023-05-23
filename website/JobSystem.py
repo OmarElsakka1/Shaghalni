@@ -2,13 +2,16 @@ from .models import *
 from .ImageManager import ImageManager
 from . import db
 from .SingletonMeta import SingletonMeta
-
+from .UserSystem import userSystem
 
 class JobSystem(metaclass=SingletonMeta) :
+
+    listeners = []
+
     def __init__(self , db) -> None:
         self.db = db
 
-    def PostJob(self , job :Job , img : None ):
+    def PostJob(self , job :Job , img = None ):
         self.db.session.add(job)
         self.db.session.commit()
         if img != None :
@@ -75,8 +78,11 @@ class JobSystem(metaclass=SingletonMeta) :
             if job.user_id != owner_id :
                 print("User not authorized to delete job")
                 return False
+            job_id  = job.id
             self.db.session.delete(job)
             self.db.session.commit()
+            for listener in self.listeners :
+                listener.OnJobDeleted(job_id)
             return True
         except:
             return False
@@ -123,7 +129,18 @@ class JobSystem(metaclass=SingletonMeta) :
         """        
         return JobApplication.query.filter_by(job_id = job_id).all()
         
+    def OnUserDeleted(self , user_id : int) :
+        """ 
+        Delete all the jobs posted by a user.
+        Args:
+            user_id (int): id of the user
+        """        
+        jobs = Job.query.filter_by(user_id = user_id).all()
+        for job in jobs :
+            self.DeleteJob(job.id , user_id)
 
     
 
 jobSystem = JobSystem(db)
+userSystem.listeners.append(jobSystem)   # add the jobSystem to the userSystem listeners
+
