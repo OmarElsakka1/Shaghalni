@@ -1,6 +1,6 @@
 import pytest
 from Functions import adapter,login_action_testing
-'''
+
 def test_add_admin():
     email = "admin2@Shaghlni.com"
     password = "1234567"
@@ -85,7 +85,7 @@ def test_add_admin():
                                                     lastname="Anwar",
                                                     pass1 = "sdfghjk", pass2 = "sdfghjk") == True
  
-'''
+
 
 def test_change_password():
     email = "admin2@Shaghlni.com"
