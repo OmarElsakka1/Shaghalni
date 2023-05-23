@@ -1,0 +1,32 @@
+{% extends "base.html" %} 
+{% block title %}Posted jobs{% endblock %} 
+{% block content %}
+
+<h2> Posted jobs </h2>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+  
+        <div class="row">
+          {% for job in jobs %}
+            <div class="col-md-4 mb-3">
+              <div class="card">
+                <div class="card-body">
+                  <a href="{{ url_for('job_views.expand_job', job_id=job.id) }}">
+                    <h5 class="card-title">{{ job.job_name }}</h5>
+                    <p class="card-text"><small class="text-muted">{{ job.job_date }}</small></p>
+                  </a>
+                  <form action="{{ url_for('job_views.delete_job', job_id=job.id) }}" method="POST">
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+  
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

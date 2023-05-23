@@ -58,18 +58,22 @@ class JobSystem :
         """        
         return JobImage.query.filter_by(job_id = job_id).first()
 
-    def DeleteJob(self , id : int):
+    def DeleteJob(self , id : int , owner_id):
         """ 
         Delete a job from the database.
         Args:
             id (int): id of the job
+            owner_id (int) : id of the owner
         
         Returns:
             bool: True if job deleted else False.
         """        
-       
+        
         try:
             job = Job.query.get(id)
+            if job.user_id != owner_id :
+                print("User not authorized to delete job")
+                return False
             self.db.session.delete(job)
             self.db.session.commit()
             return True

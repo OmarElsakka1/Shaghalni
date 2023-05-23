@@ -26,10 +26,10 @@
                   {% endif %}
                <div class="row mt-3">
                   <div class="col-md-12">
-                    <h5 class="font-weight-bold">Jobs</h5>
+                    <h5 class="font-weight-bold">Posted jobs</h5>
                     <ul class="list-group">
                     {% for job in target.jobs %}
-                      <li class="list-group-item">{{ job.title }}</li>
+                      <li class="list-group-item">{{ job.job_name }}</li>
                     {% else %}
                       <li class="list-group-item">No jobs found</li>
                     {% endfor %}

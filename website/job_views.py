@@ -63,8 +63,22 @@ def expand_job(job_id):
 @login_required
 def get_job_image(job_id):
     job_img = jobSystem.GetJobImage(job_id)
+    
     if job_img :
         print(job_img.image_path)
         return send_file('../' + job_img.image_path, mimetype='image/jpg')
     else :
         return None
+
+
+@job_views.route('/jobs/posted-by-user', methods=['GET'])
+@login_required
+def get_jobs_posted_by_user():   
+    jobs = jobSystem.GetPostedJobs(current_user.id)
+    return render_template('Jobs/posted_jobs.html' ,user=current_user ,jobs = jobs )
+
+@job_views.route('/jobs/delete/<int:job_id>', methods=['POST'])
+@login_required
+def delete_job(job_id):
+    jobSystem.DeleteJob(job_id , current_user.id)
+    return redirect(request.referrer)
