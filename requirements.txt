@@ -3,3 +3,5 @@ Flask-SQLAlchemy
 flask-login
 matplotlib
 pandas
+pytest
+selenium
