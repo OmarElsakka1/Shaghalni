@@ -3,74 +3,74 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
+##################################################
+#trigger:
+#- main
+#pr:
+#- master
+#pool:
+#  vmImage: ubuntu-latest
+#stages:
 
-trigger:
-- main
-pr:
-- master
-pool:
-  vmImage: ubuntu-latest
-stages:
+#- stage: build_push
+#  displayName: 'Build and push to docker hub'
+#  jobs:
+#  - job : build_push_job
+#    steps:
+#    - task: Docker@2
+#      inputs:
+#        containerRegistry: 'MyDocker'
+#        repository: 'ezzat12/shaghalni'
+#        command: 'buildAndPush'
+#        Dockerfile: '**/Dockerfile.deploy'
 
-- stage: build_push
-  displayName: 'Build and push to docker hub'
-  jobs:
-  - job : build_push_job
-    steps:
-    - task: Docker@2
-      inputs:
-        containerRegistry: 'MyDocker'
-        repository: 'ezzat12/shaghalni'
-        command: 'buildAndPush'
-        Dockerfile: '**/Dockerfile.deploy'
+#- stage: acceptance_tests
+#  displayName: Acceptance tests
+#  jobs:
+#  - job: deploy_to_testing_environment
+#    displayName: Deploy to testing environment
+#    steps:
+#    - task: AzureWebAppContainer@1
+#      inputs:
+#        azureSubscription: 'Azure for Students Starter (d844cfaa-a35b-4bff-af98-2a5351d5d0c6)'
+#        appName: 'python-test-dev-ezzat'
+#        containers: 'ezzat12/shaghalni:$(Build.BuildId)'
+#    - task: AzureAppServiceManage@0
+#      inputs:
+#        azureSubscription: 'Azure for Students Starter (d844cfaa-a35b-4bff-af98-2a5351d5d0c6)'
+#        Action: 'Start Azure App Service'
+#        WebAppName: 'python-test-dev-ezzat'
+#    - script: |
+#        while [[ "$(curl -s -o /dev/null -w '%{http_code}' https://python-test-dev-ezzat.azurewebsites.net/)" != "200" && "$(curl -s -o /dev/null -w '%{http_code}' https://python-test-dev-ezzat.azurewebsites.net/)" != "302" ]]; do sleep 5; done
+#      displayName: Wait for testing environment to become available
 
-- stage: acceptance_tests
-  displayName: Acceptance tests
-  jobs:
-  - job: deploy_to_testing_environment
-    displayName: Deploy to testing environment
-    steps:
-    - task: AzureWebAppContainer@1
-      inputs:
-        azureSubscription: 'Azure for Students Starter (d844cfaa-a35b-4bff-af98-2a5351d5d0c6)'
-        appName: 'python-test-dev-ezzat'
-        containers: 'ezzat12/shaghalni:$(Build.BuildId)'
-    - task: AzureAppServiceManage@0
-      inputs:
-        azureSubscription: 'Azure for Students Starter (d844cfaa-a35b-4bff-af98-2a5351d5d0c6)'
-        Action: 'Start Azure App Service'
-        WebAppName: 'python-test-dev-ezzat'
-    - script: |
-        while [[ "$(curl -s -o /dev/null -w '%{http_code}' https://python-test-dev-ezzat.azurewebsites.net/)" != "200" && "$(curl -s -o /dev/null -w '%{http_code}' https://python-test-dev-ezzat.azurewebsites.net/)" != "302" ]]; do sleep 5; done
-      displayName: Wait for testing environment to become available
+#  - job: run_acceptance_tests
+#    displayName: Run acceptance tests
+#    dependsOn: deploy_to_testing_environment
+#    steps:
+#    - script: |
+#        pip install -U pytest requests
+#      displayName: Install requirements
+#    - script: |
+#        pytest user_testing.py
+#      displayName: Run user tests
+#    - script: |
+#        pytest admin_testing.py
+#      displayName: Run admin tests
+#    - script: |
+#        echo 'All tests passed successfully!'
+#      displayName: Success message
 
-  - job: run_acceptance_tests
-    displayName: Run acceptance tests
-    dependsOn: deploy_to_testing_environment
-    steps:
-    - script: |
-        pip install -U pytest requests
-      displayName: Install requirements
-    - script: |
-        pytest user_testing.py
-      displayName: Run user tests
-    - script: |
-        pytest admin_testing.py
-      displayName: Run admin tests
-    - script: |
-        echo 'All tests passed successfully!'
-      displayName: Success message
-
-  - job: stop_testing_environment
-    displayName: Stop testing environment
-    dependsOn: run_acceptance_tests
-    condition: succeededOrFailed()
-    steps:
-    - task: AzureAppServiceManage@0
-      inputs:
-        azureSubscription: 'Azure for Students Starter (d844cfaa-a35b-4bff-af98-2a5351d5d0c6)'
-        Action: 'Stop Azure App Service'
-        WebAppName: 'python-test-dev-ezzat'
+#  - job: stop_testing_environment
+#    displayName: Stop testing environment
+#    dependsOn: run_acceptance_tests
+#    condition: succeededOrFailed()
+#    steps:
+#    - task: AzureAppServiceManage@0
+#      inputs:
+#        azureSubscription: 'Azure for Students Starter (d844cfaa-a35b-4bff-af98-2a5351d5d0c6)'
+#        Action: 'Stop Azure App Service'
+#        WebAppName: 'python-test-dev-ezzat'
 
 
 
