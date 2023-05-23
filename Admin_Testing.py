@@ -1,6 +1,8 @@
 import pytest
 from Functions import adapter,login_action_testing
 
+base_url = "https://python-test-dev-ezzat.azurewebsites.net/"
+
 def test_add_admin():
     email = "admin2@Shaghlni.com"
     password = "1234567"
@@ -12,8 +14,8 @@ def test_add_admin():
     fail_fistlength_msg = "First name must be at least"
     fail_lastlength_msg = "Last name must be at least"
 
-    path = "http://localhost/admin/adminlogin"
-    pathform = "http://localhost/admin/adminadd_admin"
+    path = f"{base_url}/admin/adminlogin"
+    pathform = f"{base_url}/admin/adminadd_admin"
 
     # Testing Good account
     assert adapter(path,pathform).do_login_add_admin(email = email, password = password,
@@ -93,7 +95,7 @@ def test_change_password():
     success_msg = "Password Changed Successfully!\n×"
     page = "adminchangepassword"
     button = "admin_chgpass_submit"
-    path = "http://localhost/admin/adminlogin"
+    path = f"{base_url}/admin/adminlogin"
 
     assert login_action_testing(path,
                                      email, password).do_change_Password_action(password,"sdfghjk",success_msg,page, button) == True

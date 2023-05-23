@@ -2,6 +2,7 @@
 import pytest
 from Functions import login_action_testing, signup_testing
 
+base_url = "https://python-test-dev-ezzat.azurewebsites.net/"
 
 def test_sign_up():
     succes_msg = "Account created Successfully!\n×"
@@ -15,7 +16,7 @@ def test_sign_up():
     fail_nogender_msg = "You have to choose a Gender!\n×"
     fail_nousertype_msg = "You have to choose a User Type!\n×"
 
-    path = "http://localhost/sign-up"
+    path = f"{base_url}/sign-up"
 
     # Testing Good account
     assert signup_testing(path).apply_signup(msg= succes_msg,
@@ -144,7 +145,7 @@ def test_sign_up():
 
 
 def initializing_parameters(email, password):
-    login_action_testing("http://localhost/login",
+    login_action_testing(f"{base_url}/login",
             email, password).do_change_Profile_action(firstname= "Omar",
                                                       lastname= "ElSakka",
                                                       jobdes= "I am Initializer",
@@ -157,7 +158,7 @@ def test_change_password():
     success_msg = "Password Changed Successfully!\n×"
     page = "changepassword"
     button = "changepasssubmit"
-    path = "http://localhost/login"
+    path = f"{base_url}/login"
 
     assert login_action_testing(path,
                                      email, password).do_change_Password_action(password,password,success_msg,page, button) == True
@@ -172,7 +173,7 @@ def test_change_profile():
     email = "1111110@hello.com"
     password = "1234567"
     initializing_parameters(email, password)
-    path = "http://localhost/login"
+    path = f"{base_url}/login"
 
     assert login_action_testing(path,
             email, password).do_change_Profile_action(newemail ="3456789@asljhflksdfjb.com",
@@ -222,7 +223,7 @@ def test_change_profile():
 def test_log_out():
     email = "1111110@hello.com"
     password = "1234567"
-    assert login_action_testing("http://localhost/login",email, password).do_logout_action()
+    assert login_action_testing(f"{base_url}/login",email, password).do_logout_action()
 
 
 
