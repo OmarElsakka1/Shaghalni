@@ -160,11 +160,11 @@ def test_change_password():
     path = "http://localhost/login"
 
     assert login_action_testing(path,
-                                     email, password).do_change_Password_action("sdfghjk","sdfghjk",success_msg,page, button) == True
+                                     email, password).do_change_Password_action(password,password,success_msg,page, button) == True
     assert login_action_testing(path,
-                                     email, password).do_change_Password_action("sdfghjk","1234",success_msg) == False
+                                     email, password).do_change_Password_action(password,"1234",success_msg,page, button) == False
     assert login_action_testing(path,
-                                     email, password).do_change_Password_action("1234","sdfghjk",success_msg) == False
+                                     email, password).do_change_Password_action("1234",password,success_msg,page, button) == False
 
 
 
