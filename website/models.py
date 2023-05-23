@@ -21,6 +21,7 @@ class User(db.Model, UserMixin):
     usertype = db.Column(db.String(10), nullable=False) # Freelancer , Business Owner , Both
     about = db.Column(db.String(400))
     jobs = db.relationship('Job' , backref='user')
+    applications = db.relationship('JobApplication' , backref='user')
     image_name = db.Column(db.String(150))
 
 
@@ -63,4 +64,6 @@ class JobImage(db.Model) :
 class ApplicationSubmission(db.Model) :
     id = db.Column(db.Integer, primary_key=True)
     file_path = db.Column(db.String(200) , nullable =False)
+    title = db.Column(db.String(200) , nullable =False)
+    sub_date = db.Column(db.DateTime(timezone=True), default=func.now() ,nullable =False)
     application_id = db.Column(db.Integer , db.ForeignKey(JobApplication.id) , nullable = False)

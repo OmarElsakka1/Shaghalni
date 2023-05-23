@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Received submissions{% endblock %}
+
+<h1 align="center">Received submissions {{search_prompt}}</h1>
+  
+{% for sub in submissions %}
+<div class="card my-3">
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-9">
+        <h5 class="card-title">{{ loop.index0+1 }}. {{ sub.title }}</h5>
+        <p class="card-text">{{ sub.sub_date }}</p>
+        <a href="{{ url_for('profile_views.view_profile', id=result.id) }}" class="btn btn-primary">{{sub.application.user.first_name}}</a>
+
+        <form  method="POST" enctype="multipart/form-data">
+            <button type="submit" class="btn btn-primary">Download</button>
+        </form>
+        <form  method="POST" enctype="multipart/form-data">
+            <button type="submit" class="btn btn-primary">Mark as Accepted</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+{% block content %}
