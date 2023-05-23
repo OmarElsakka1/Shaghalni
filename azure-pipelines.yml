@@ -11,32 +11,6 @@ pr:
 pool:
   vmImage: ubuntu-latest
 stages:
-- stage: UserTesting
-  displayName: 'unit tests for User'
-  jobs:
-  - job: unit_tests
-    steps:
-    - script: |
-        pip install -r requirements.txt
-      displayName: 'Installing Requirements'
-
-
-- stage: UserTesting
-  displayName: 'unit tests for User and admin'
-  jobs:
-  - job: unit_tests
-    steps:
-    - script: |
-        python main.py
-      displayName: 'Running Website'
-    - script: |
-        pytest User_Testing.py
-      displayName: 'Build Docker image for unit tests for user'
-    - script: |
-        pytest Admin_Testing.py
-      displayName: 'Build Docker image for unit tests for admin'
-
-
 
 - stage: build_push
   displayName: 'Build and push to docker hub'
@@ -49,5 +23,57 @@ stages:
         repository: 'ezzat12/shaghalni'
         command: 'buildAndPush'
         Dockerfile: '**/Dockerfile.deploy'
+
+- stage: acceptance_tests
+  displayName: Acceptance tests
+  jobs:
+  - job: deploy_to_testing_environment
+    displayName: Deploy to testing environment
+    steps:
+    - task: AzureWebAppContainer@1
+      inputs:
+        azureSubscription: 'Azure for Students Starter (d844cfaa-a35b-4bff-af98-2a5351d5d0c6)'
+        appName: 'python-test-dev-ezzat'
+        containers: 'ezzat12/shaghalni:$(Build.BuildId)'
+    - task: AzureAppServiceManage@0
+      inputs:
+        azureSubscription: 'Azure for Students Starter (d844cfaa-a35b-4bff-af98-2a5351d5d0c6)'
+        Action: 'Start Azure App Service'
+        WebAppName: 'python-test-dev-ezzat'
+    - script: |
+        while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' https://python-test-dev-ezzat.azurewebsites.net/)" != "200" ]]; do sleep 5; done
+      displayName: Wait for testing environment to become available
+
+  - job: run_acceptance_tests
+    displayName: Run acceptance tests
+    dependsOn: deploy_to_testing_environment
+    steps:
+    - script: |
+        pip install -r requirements.tx
+      displayName: Install requirements
+    - script: |
+        pytest User_Testing.py
+      displayName: Run User tests
+    - script: |
+        pytest Admin_Testing.py
+      displayName: Run Admin tests
+    - script: |
+        echo 'All tests passed successfully!'
+      displayName: Success message
+
+  - job: stop_testing_environment
+    displayName: Stop testing environment
+    dependsOn: run_acceptance_tests
+    condition: succeededOrFailed()
+    steps:
+    - task: AzureAppServiceManage@0
+      inputs:
+        azureSubscription: 'Azure for Students Starter (d844cfaa-a35b-4bff-af98-2a5351d5d0c6)'
+        Action: 'Stop Azure App Service'
+        WebAppName: 'python-test-dev-ezzat'
+
+
+
+
 
     
