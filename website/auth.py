@@ -165,7 +165,7 @@ def change_password():
             user.password = new_password_hash
             db.session.commit()
             flash('Password Changed Successfully!', category='success')
-            return redirect(url_for('views.browse_jobs'))
+            return redirect(url_for('job_views.browse_jobs'))
 
     return render_template("change_password.html", user=current_user)
 

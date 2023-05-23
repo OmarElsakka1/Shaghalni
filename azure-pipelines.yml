@@ -11,24 +11,29 @@ pr:
 pool:
   vmImage: ubuntu-latest
 
-stages:
-- stage: test
-  displayName: 'unit tests'
-  jobs:
-  - job: unit_tests
-    steps:
-    - script: |
-        echo we will do unit tests here
-      displayName: 'Build Docker image for unit tests'
-
 - stage: UserTesting
   displayName: 'unit tests for User'
   jobs:
   - job: unit_tests
     steps:
     - script: |
+        pip install -r requirements.txt
+      displayName: 'Installing Requirements'
+
+- stage: RunningProgram
+  displayName: 'Running website'
+  jobs:
+  - job: Running Program
+    steps:
+    - script: |
         python main.py
-      displayName: 'Running Website for user testing'
+      displayName: 'Running Website'
+
+- stage: UserTesting
+  displayName: 'unit tests for User'
+  jobs:
+  - job: unit_tests
+    steps:
     - script: |
         pytest User_Testing.py
       displayName: 'Build Docker image for unit tests for user'
