@@ -51,6 +51,7 @@ class JobApplication(db.Model) :
     id = db.Column(db.Integer, primary_key=True)
     job_id = db.Column(db.Integer, db.ForeignKey('job.id') , nullable =False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id') , nullable =False)
+    job_status = db.Column(db.String(10)  ,nullable =False)  # Pending , Accepted , Rejected
 
 class JobImage(db.Model) :
     id = db.Column(db.Integer, primary_key=True)
