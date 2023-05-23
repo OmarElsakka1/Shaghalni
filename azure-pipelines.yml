@@ -12,8 +12,8 @@ pool:
   vmImage: ubuntu-latest
 
 stages:
-- stage: test
-  displayName: 'unit tests'
+- stage: Installing
+  displayName: 'Install Requirements'
   jobs:
   - job: unit_tests
     steps:
