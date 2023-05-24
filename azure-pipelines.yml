@@ -49,7 +49,7 @@ stages:
     dependsOn: deploy_to_testing_environment
     steps:
     - script: |
-        pip install -U pytest requests
+        pip install -r requirements.txt
       displayName: Install requirements
     - script: |
         pytest user_testing.py
