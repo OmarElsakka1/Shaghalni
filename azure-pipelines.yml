@@ -48,14 +48,20 @@ stages:
     displayName: Run acceptance tests
     dependsOn: deploy_to_testing_environment
     steps:
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '3.11'
+        addToPath: true
+        architecture: 'x64'
     - script: |
         pip install -r requirements.txt
       displayName: Install requirements
+    
     - script: |
-        pytest --driver Chrome --headless --disable-gpu user_testing.py
+        pytest user_testing.py
       displayName: Run user acceptance tests
     - script: |
-        pytest --driver Chrome --headless --disable-gpu admin_testing.py
+        pytest  admin_testing.py
       displayName: Run  admin acceptance tests
     - script: |
         echo 'All tests passed successfully!'
