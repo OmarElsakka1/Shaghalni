@@ -1,8 +1,8 @@
 from .models import *
-from .FileManager import FileManager
+from .file_manager import FileManager
 from . import db
-from .SingletonMeta import SingletonMeta
-from .UserSystem import userSystem
+from .singelton_meta import SingletonMeta
+from .user_system import userSystem
 
 class JobSystem(metaclass=SingletonMeta) :
 

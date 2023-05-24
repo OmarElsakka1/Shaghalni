@@ -1,8 +1,8 @@
 from .models import *
-from .FileManager import FileManager
-from .ApplicationsSystem import applicationsSystem
+from .file_manager import FileManager
+from .application_system import applicationsSystem
 from . import db
-from .SingletonMeta import SingletonMeta
+from .singelton_meta import SingletonMeta
 
 
 class SubmissionSystem(metaclass=SingletonMeta):

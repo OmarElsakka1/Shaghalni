@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 from .models import User, Admin
 from . import db
 from .helpers import CheckLength, Passwords, CheckEmail
-from .UserSystem import userSystem
+from .user_system import userSystem
 
 
 admin = Blueprint('admin', __name__)

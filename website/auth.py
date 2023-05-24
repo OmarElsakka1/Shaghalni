@@ -5,7 +5,7 @@ from werkzeug.security import generate_password_hash
 from .models import User
 from . import db  # means from __init__.py import db
 from .helpers import CheckTypicality, CheckLength, Passwords, CheckEmail
-from .UserSystem import userSystem
+from .user_system import userSystem
 
 
 auth = Blueprint('auth', __name__)

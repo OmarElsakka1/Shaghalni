@@ -1,8 +1,8 @@
 from distutils.log import error
 from .models import *
 from . import db
-from .SingletonMeta import SingletonMeta
-from .JobSystem import jobSystem
+from .singelton_meta import SingletonMeta
+from .kob_system import jobSystem
 
 class ApplicationsSystem(metaclass=SingletonMeta):
     listeners = []

@@ -1,7 +1,7 @@
 from .models import *
-from .FileManager import FileManager
+from .file_manager import FileManager
 from . import db
-from .SingletonMeta import SingletonMeta
+from .singelton_meta import SingletonMeta
 
 class UserSystem(metaclass=SingletonMeta) :
     lisiteners = []

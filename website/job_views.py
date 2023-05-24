@@ -1,11 +1,11 @@
 from datetime import datetime
 from flask import Blueprint, render_template, request, flash , redirect , url_for  , send_file , render_template_string
 from flask_login import login_required, current_user
-from .FileManager import  FileManager
-from .JobSystem import jobSystem
-from .UserSystem import userSystem
-from .ApplicationsSystem import applicationsSystem
-from .SubmissionSystem import submissionSystem
+from .file_manager import  FileManager
+from .kob_system import jobSystem
+from .user_system import userSystem
+from .application_system import applicationsSystem
+from .submission_system import submissionSystem
 from .models import Job
 
 
