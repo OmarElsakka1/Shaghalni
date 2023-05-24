@@ -156,3 +156,36 @@ def make_submission(application_id : int) :
 def get_applications() :
     applications = applicationsSystem.GetApplicationsByUser(current_user.id)
     return render_template('my_applications.html' , user = current_user , applications = applications)
+
+
+@job_views.route('jobs/submission/recv_submissions' , methods = ['GET'])
+@login_required
+def recv_submissions() :
+    if current_user.usertype == 'Freelancer' :
+        return render_template_string('PageNotFound {{ errorCode }}', errorCode='404'), 404
+    submissions = submissionSystem.GetSubmissionsToUser(current_user.id)
+    return render_template('jobs/recv_submissions.html' , user = current_user , submissions = submissions)
+
+@job_views.route('jobs/submission/accept_submission/<int:submission_id>', methods = ['POST'])
+@login_required
+def accept_submission(submission_id : int) :
+    print(submission_id)
+    if current_user.usertype == 'Freelancer'  :
+        return render_template_string('PageNotFound {{ errorCode }}', errorCode='404'), 404
+    if submissionSystem.AcceptSubmission(submission_id , current_user) :
+        flash("Accepted submission" , "success")
+    else :
+        flash("Error accepting submission" , "error")
+    return redirect(request.referrer)
+
+
+@job_views.route('/jobs/submissions/download-file/<int:submission_id>', methods=['GET'])
+@login_required
+def download_file(submission_id):
+    print(submission_id)
+    if current_user.usertype == 'Freelancer' :
+        return render_template_string('PageNotFound {{ errorCode }}', errorCode='404'), 404
+    submission:submissionSystem = submissionSystem.GetSubmissionById(submission_id)
+    if submission.application.job.user_id != current_user.id :
+        return render_template_string('PageNotFound {{ errorCode }}', errorCode='404'), 404
+    return send_file('../' + submission.file_path,as_attachment=True)

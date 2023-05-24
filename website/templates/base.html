@@ -45,6 +45,7 @@
           <a class="nav-item nav-link" id="changeprofile" href="/changeprofile">Change Profile</a>
           {% if user.usertype != 'Freelancer' %}
           <a class="nav-item nav-link" id="postedjobs" href="{{url_for('job_views.get_jobs_posted_by_user')}}">Posted jobs</a>
+          <a class="nav-item nav-link" id="get_subs" href="{{url_for('job_views.recv_submissions')}}">Received Submissions</a>
           {% endif %}
           {% if user.usertype != 'Business Owner' %}
           <a class="nav-item nav-link" id="postedjobs" href="{{url_for('job_views.get_user_applications')}}">My Applications</a>
@@ -95,17 +96,6 @@
       crossorigin="anonymous"
     ></script>
 
-{% block javascript %}
-    <script type="text/javascript">
-      function deleteNote(noteId) {
-  fetch("/delete-note", {
-    method: "POST",
-    body: JSON.stringify({ noteId: noteId }),
-  }).then((_res) => {
-    window.location.href = "/";
-  });
-  }
-</script>
-{% endblock %}
+
   </body>
 </html>

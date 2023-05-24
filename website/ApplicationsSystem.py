@@ -5,6 +5,7 @@ from .SingletonMeta import SingletonMeta
 from .JobSystem import jobSystem
 
 class ApplicationsSystem(metaclass=SingletonMeta):
+    listeners = []
     def __init__(self , db) -> None:
         self.db = db
 
@@ -32,12 +33,25 @@ class ApplicationsSystem(metaclass=SingletonMeta):
             print(e)
             return False
 
+    def DeleteApplication(self , application_id : int) -> bool :
+        try :
+            application = JobApplication.query.filter_by(id = application_id).first()
+            application.delete()
+            self.db.session.commit()
+            return True
+        except :
+            return False
+            
     def GetApplicationsByUser(self , user_id : int) -> list[JobApplication] :
         return JobApplication.query.filter_by(user_id = user_id).all()
 
     def OnJobDeleted(self , job_id : int) -> None :
         try : 
-            JobApplication.query.filter_by(job_id = job_id).delete()
+            deleted_app =  JobApplication.query.filter_by(job_id = job_id).first()
+            if deleted_app :
+                for listener in self.listeners :
+                    listener.OnAppDeleted(job_id)
+            deleted_app.delete()
             self.db.session.commit()
         except :
             print("No applications to delete")
