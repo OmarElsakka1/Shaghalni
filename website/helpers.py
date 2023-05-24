@@ -138,15 +138,12 @@ class CheckTypicality:
 class CheckLength:
     def __init__(self, min_len, name):
         self.min_len = min_len
-        self.name = name
+        self.text = name
 
-    def is_short(self, word, showmsg=True):
-        if (len(word) < self.min_len):
+    def is_short(self, showmsg=False):
+        if (len(self.text) < self.min_len):
             if showmsg:
-                flash('{} must be at least {} characters!'.format(
-                    self.name, self.min_len), category='error')
-            else:
-                pass
+                flash('{} must be at least {} characters!'.format(self.text, self.min_len), category='error')
             return True
         else:
             return False
@@ -157,27 +154,19 @@ class Passwords:
         self.new_password = new_password
         self.confirm_new_password = confirm_new_password
 
-    def is_good(self):
+    def is_good(self  ,display = True):
         if not CheckTypicality(
                 self.new_password,
                 self.confirm_new_password).is_equal():
-            flash('Passwords don\'t match!', category='error')
-        elif CheckLength(7, "Password").is_short(self.new_password):
-            pass
-            # pass
-        else:
-            return True
-        return False
-
-    def is_same(self, sucessmsg, failmsg):
-        if check_password_hash(self.new_password, self.confirm_new_password):
-            if (len(sucessmsg) > 0):
-                flash(sucessmsg, category='success')
-            return True
-        else:
-            if (len(failmsg) > 0):
-                flash(failmsg, category='error')
+            if display:
+                flash('Passwords don\'t match!', category='error')
             return False
+        elif CheckLength(7,self.new_password ).is_short():
+            return False
+        else:
+            return True
+        
+
 
 
 class CheckEmail:

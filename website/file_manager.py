@@ -19,7 +19,7 @@ class FileManager:
     def SaveFile(file ,owner) -> str:
         filename = secure_filename(file.filename)
         extension = filename.split('.')[-1]
-        print(owner)
+        if not owner: return None
         if isinstance(owner,Job):
             print("owner",owner.id)
             save_loc = os.path.join('instance','Images','Jobs',f'{owner.id}.{extension}')
