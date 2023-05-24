@@ -48,9 +48,15 @@ stages:
     displayName: Run acceptance tests
     dependsOn: deploy_to_testing_environment
     steps:
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '3.11'
+        addToPath: true
+        architecture: 'x64'
     - script: |
         pip install -r requirements.txt
       displayName: Install requirements
+    
     - script: |
         docker build -t test-app:1.0.0 -f Dockerfile.test .
       displayName: Build testing image
