@@ -1,6 +1,6 @@
 from functions import Adapter, LoginActionTesting
 
-BASE_URL = "https://python-test-dev-ezzat.azurewebsites.net"  # "http://localhost" #
+BASE_URL = "https://python-test-ezzat.azurewebsites.net"  # "http://localhost" #
 
 
 def test_add_admin():

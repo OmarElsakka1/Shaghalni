@@ -33,15 +33,15 @@ stages:
     - task: AzureWebAppContainer@1
       inputs:
         azureSubscription: 'Azure for Students Starter (d844cfaa-a35b-4bff-af98-2a5351d5d0c6)'
-        appName: 'python-test-dev-ezzat'
+        appName: 'python-test-ezzat'
         containers: 'ezzat12/shaghalni:$(Build.BuildId)'
     - task: AzureAppServiceManage@0
       inputs:
         azureSubscription: 'Azure for Students Starter (d844cfaa-a35b-4bff-af98-2a5351d5d0c6)'
         Action: 'Start Azure App Service'
-        WebAppName: 'python-test-dev-ezzat'
+        WebAppName: 'python-test-ezzat'
     - script: |
-        while [[ "$(curl -s -o /dev/null -w '%{http_code}' https://python-test-dev-ezzat.azurewebsites.net/)" != "200" && "$(curl -s -o /dev/null -w '%{http_code}' https://python-test-dev-ezzat.azurewebsites.net/)" != "302" ]]; do sleep 5; done
+        while [[ "$(curl -s -o /dev/null -w '%{http_code}' https://python-test-ezzat.azurewebsites.net/)" != "200" && "$(curl -s -o /dev/null -w '%{http_code}' https://python-test-ezzat.azurewebsites.net/)" != "302" ]]; do sleep 5; done
       displayName: Wait for testing environment to become available
 
   - job: run_acceptance_tests
@@ -76,7 +76,7 @@ stages:
       inputs:
         azureSubscription: 'Azure for Students Starter (d844cfaa-a35b-4bff-af98-2a5351d5d0c6)'
         Action: 'Stop Azure App Service'
-        WebAppName: 'python-test-dev-ezzat'
+        WebAppName: 'python-test-ezzat'
 
 
 
