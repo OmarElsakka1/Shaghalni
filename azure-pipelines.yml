@@ -34,7 +34,7 @@ stages:
         pip install -r requirements.txt
       displayName: Install requirements
     - script: |
-        pytest .\test_unit1.py .\test_unit2.py
+        pytest test_unit1.py test_unit2.py
       displayName: Running pytest
 
 - stage: acceptance_tests
