@@ -18,7 +18,7 @@
                     <p class="card-text"><small class="text-muted">{{ app.job_status }}</small></p>
                   </div>
                   {% if app.job_status =="Accepted" %}
-                  <form action="{{ url_for('job_views.make_submission', application_id=app.id) }}" method="POST">
+                  <form action="{{ url_for('job_views.make_submission', application_id=app.id) }}" method="GET">
                     <button type="submit" class="btn btn-primary">Make submission</button>
                   </form>
                   {% endif %}

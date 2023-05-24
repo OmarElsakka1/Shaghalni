@@ -1,5 +1,5 @@
 from .models import *
-from .ImageManager import ImageManager
+from .FileManager import FileManager
 from . import db
 from .SingletonMeta import SingletonMeta
 
@@ -27,7 +27,7 @@ class UserSystem(metaclass=SingletonMeta) :
 
     def ChangePfp(self,user : User , img = None) -> bool :
         if img != None :
-            fname = ImageManager.SaveImage(img , user)
+            fname = FileManager.SaveFile(img , user)
             if fname == None :
                 print("Error in saving image")
                 return False

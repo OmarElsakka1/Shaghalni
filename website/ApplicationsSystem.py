@@ -8,6 +8,9 @@ class ApplicationsSystem(metaclass=SingletonMeta):
     def __init__(self , db) -> None:
         self.db = db
 
+    def GetApplicationById(self , application_id : int) -> JobApplication :
+        return JobApplication.query.filter_by(id = application_id).first()
+
     def GetPendingApplications(self, job_id : int) -> list[JobApplication] :
         return JobApplication.query.filter_by(job_id = job_id , status = "Pending").all()        
 

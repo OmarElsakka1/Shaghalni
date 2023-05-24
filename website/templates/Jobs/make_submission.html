@@ -5,7 +5,8 @@
     </head>
     <body>
       <div class="container">
-        <h2 class="text-center my-5">Make submission</h1>
+        <h2 class="text-center my-5">Make submission</h2>
+        <h3 class="text-center my-5">{{ app.job.job_name }}</h3>
         <div class="row justify-content-center">
           <div class="col-md-8 col-lg-6">
             <form  method="POST" enctype="multipart/form-data">
@@ -18,7 +19,7 @@
 
               <div class="form-group">
                 <label class="form-control-label">Attach image</label>
-                <input type="file"  name="file">
+                <input type="file"  name="file" required>
               </div>
 
               <button type="submit" class="btn btn-primary">submit</button>

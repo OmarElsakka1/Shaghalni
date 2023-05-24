@@ -1,10 +1,11 @@
 from datetime import datetime
 from flask import Blueprint, render_template, request, flash , redirect , url_for  , send_file , render_template_string
 from flask_login import login_required, current_user
-from .ImageManager import  ImageManager
+from .FileManager import  FileManager
 from .JobSystem import jobSystem
 from .UserSystem import userSystem
 from .ApplicationsSystem import applicationsSystem
+from .SubmissionSystem import submissionSystem
 from .models import Job
 
 
@@ -22,8 +23,10 @@ def browse_jobs():
 def apply_job(job_id):
     if current_user.usertype == 'Business Owner' :
         return render_template_string('PageNotFound {{ errorCode }}', errorCode='404'), 404
-
-    jobSystem.ApplyForJob(job_id, current_user.id)
+    if jobSystem.ApplyForJob(job_id, current_user.id):
+        flash('You have applied to this job!', 'success')
+    else :
+        flash('Something went wrong!', 'error')
     print(f"Applied to job with id {job_id}")
     return redirect(request.referrer)
 
@@ -43,7 +46,7 @@ def post_job():
         print(file)
         job_deadline = datetime.strptime(job_deadline, '%Y-%m-%d' )
         if file.filename :
-            if not ImageManager.CheckExtension(file) :
+            if not FileManager.CheckExtension(file) :
                 flash('Invalid file type', 'danger')
                 return render_template('Jobs/post_job.html' ,user = current_user)
         else :
@@ -104,6 +107,12 @@ def delete_job(job_id):
     jobSystem.DeleteJob(job_id , current_user.id)
     return redirect(request.referrer)
 
+@job_views.route('/jobs/applications/my-applications', methods=['GET' , 'POST'])
+@login_required
+def get_user_applications():
+    applications = applicationsSystem.GetApplicationsByUser(current_user.id)
+    return render_template('my_applications.html' , user = current_user , applications = applications)
+
 
 @job_views.route('jobs/applications/<int:application_id>/reject', methods=['POST'])
 @login_required
@@ -126,7 +135,21 @@ def submission(submission_id : int) :
 @job_views.route('jobs/submission/make-submission/<int:application_id>', methods = ['GET' , 'POST'])
 @login_required
 def make_submission(application_id : int) :
-    return render_template('jobs/make_submission.html' , user = current_user)
+    if current_user == 'Buisness Owner' :
+        return render_template_string('PageNotFound ', errorCode='404'), 404
+
+    print(request.method)
+    app = applicationsSystem.GetApplicationById(application_id)
+    if request.method == 'POST' :
+        file = request.files['file']
+        title = request.form['submission_title']
+        if submissionSystem.MakeSubmission(application_id , file= file , title= title):
+            flash('Submission made successfully', 'success')
+            return redirect(request.referrer)
+        
+        flash('Invalid submission', 'danger')
+        return redirect(request.referrer)
+    return render_template('jobs/make_submission.html' , user = current_user ,app = app )
 
 @job_views.route('jobs/aplications/my_applications')
 @login_required

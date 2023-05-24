@@ -34,16 +34,21 @@
             <img src="{{ url_for('profile_views.get_image', user_id=user.id) }}" width="30" height="30" class="d-inline-block align-top rounded-circle" alt="">
           </a>
           <a class="nav-item nav-link" id="home" href="/">Home</a>
+          {% if user.usertype != 'Business Owner' %}
           <a class="nav-item nav-link" id="browse-jobs" href= "{{ url_for('job_views.browse_jobs') }}" >Browse jobs</a>
+          {% endif %}
+
+          {% if user.usertype != 'Freelancer' %}
           <a class="nav-item nav-link" id="post-jop" href= "{{ url_for('job_views.post_job') }}" >Post jobs</a>
-          
+          {% endif %}
+
           <a class="nav-item nav-link" id="changeprofile" href="/changeprofile">Change Profile</a>
           {% if user.usertype != 'Freelancer' %}
           <a class="nav-item nav-link" id="postedjobs" href="{{url_for('job_views.get_jobs_posted_by_user')}}">Posted jobs</a>
-          {% end if %}
+          {% endif %}
           {% if user.usertype != 'Business Owner' %}
-          <a class="nav-item nav-link" id="postedjobs" href="{{url_for('job_views.get_jobs_posted_by_user')}}">My Applications</a>
-          {% end if %}
+          <a class="nav-item nav-link" id="postedjobs" href="{{url_for('job_views.get_user_applications')}}">My Applications</a>
+          {% endif %}
           <a class="nav-item nav-link" id="changepassword" href="/changepassword">Change Password</a>
           <a class="nav-item nav-link" id="logout" href="/logout">Logout</a>
           <!--a class="nav-item nav-link" id="dashboard" href="/dashboard">Dashboard</a-->

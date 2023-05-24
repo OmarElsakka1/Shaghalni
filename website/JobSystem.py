@@ -1,5 +1,5 @@
 from .models import *
-from .ImageManager import ImageManager
+from .FileManager import FileManager
 from . import db
 from .SingletonMeta import SingletonMeta
 from .UserSystem import userSystem
@@ -15,7 +15,7 @@ class JobSystem(metaclass=SingletonMeta) :
         self.db.session.add(job)
         self.db.session.commit()
         if img != None :
-            fname = ImageManager.SaveImage(img , job)
+            fname = FileManager.SaveFile(img , job)
             if fname == None :
                 print("Error in saving image")
                 self.db.session.delete(job)
@@ -29,8 +29,10 @@ class JobSystem(metaclass=SingletonMeta) :
     
 
     def GetAllJobs(self) -> list[Job]:
-        print("Getting all jobs")
-        return Job.query.all()
+        # get all jobs with applications of job status != 'Pending' or  'Accepted'
+        return  Job.query.filter(~Job.applications.any(JobApplication.job_status.in_(['Accepted', 'Submitted']))).all()
+
+
         
     def GetJob(self , id) -> Job:
         return Job.query.get_or_404(id)
@@ -142,5 +144,5 @@ class JobSystem(metaclass=SingletonMeta) :
     
 
 jobSystem = JobSystem(db)
-userSystem.listeners.append(jobSystem)   # add the jobSystem to the userSystem listeners
+userSystem.lisiteners.append(jobSystem)   # add the jobSystem to the userSystem listeners
 
