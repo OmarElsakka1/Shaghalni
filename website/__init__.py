@@ -27,7 +27,7 @@ def create_app():
         app.register_blueprint(auth, url_prefix='/')
         app.register_blueprint(job_views, url_prefix='/')
         app.register_blueprint(profile_views, url_prefix='/')
-        app.register_blueprint(admin_views, url_prefix='/admin')
+        app.register_blueprint(admin, url_prefix='/admin')
 
         from .models import User
 
