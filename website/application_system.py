@@ -2,7 +2,7 @@ from distutils.log import error
 from .models import *
 from . import db
 from .singelton_meta import SingletonMeta
-from .kob_system import jobSystem
+from .job_system import jobSystem
 
 class ApplicationsSystem(metaclass=SingletonMeta):
     listeners = []
@@ -10,9 +10,18 @@ class ApplicationsSystem(metaclass=SingletonMeta):
         self.db = db
 
     def GetApplicationById(self , application_id : int) -> JobApplication :
+        ''' 
+            Returns the application with the given id
+            If no application with the given id exists, returns None.
+        
+        '''
         return JobApplication.query.filter_by(id = application_id).first()
 
     def GetPendingApplications(self, job_id : int) -> list[JobApplication] :
+        '''
+            Returns a list of all pending applications for the given job
+        '''
+        
         return JobApplication.query.filter_by(job_id = job_id , status = "Pending").all()        
 
     def PostApplication(self, job_id : int , applicant_id : int) -> JobApplication :
@@ -21,6 +30,10 @@ class ApplicationsSystem(metaclass=SingletonMeta):
         self.db.session.commit()
 
     def AcceptApplication(self, job_application_id : int) -> bool :
+        ''' 
+            Accepts the application with the given id.
+            Returns True if the application was accepted, False otherwise.
+        '''
         print(f"Accepting application with id {job_application_id}...")
         try :
             job_application = JobApplication.query.filter_by(id = job_application_id).first()

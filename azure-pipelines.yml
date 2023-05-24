@@ -52,11 +52,11 @@ stages:
         pip install -r requirements.txt
       displayName: Install requirements
     - script: |
-        pytest --driver Chrome --headless --disable-gpu user_testing.py
-      displayName: Run user acceptance tests
+        docker build -t test-app:1.0.0 -f Dockerfile.test .
+      displayName: Build testing image
     - script: |
-        pytest --driver Chrome --headless --disable-gpu admin_testing.py
-      displayName: Run  admin acceptance tests
+        docker run test-app:1.0.0
+      displayName: Run  test image
     - script: |
         echo 'All tests passed successfully!'
       displayName: Success message

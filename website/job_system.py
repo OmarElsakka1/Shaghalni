@@ -38,6 +38,16 @@ class JobSystem(metaclass=SingletonMeta) :
         return Job.query.get_or_404(id)
 
     def ApplyForJob(self , job_id , user_id) -> bool  :
+        '''
+        Apply for a job.
+        Args:
+            job_id (int): id of the job
+            user_id (int): id of the user
+
+        Returns:
+            bool: True if applied else False.
+        '''
+
         print("Applying for a job")
         try :
             job = Job.query.get(job_id)

@@ -2,7 +2,7 @@ from datetime import datetime
 from flask import Blueprint, render_template, request, flash , redirect , url_for  , send_file , render_template_string
 from flask_login import login_required, current_user
 from .file_manager import  FileManager
-from .kob_system import jobSystem
+from .job_system import jobSystem
 from .user_system import userSystem
 from .application_system import applicationsSystem
 from .submission_system import submissionSystem
@@ -47,7 +47,7 @@ def post_job():
         job_deadline = datetime.strptime(job_deadline, '%Y-%m-%d' )
         if file.filename :
             if not FileManager.CheckExtension(file) :
-                flash('Invalid file type', 'danger')
+                flash('Invalid file type', 'error')
                 return render_template('Jobs/post_job.html' ,user = current_user)
         else :
             file = None
@@ -127,10 +127,6 @@ def accept_application(application_id):
     return redirect(request.referrer)
 
 
-@job_views.route('jobs/submission/<int:submission_id>', methods = ['GET' , 'POST'])
-@login_required
-def submission(submission_id : int) :
-    return None
 
 @job_views.route('jobs/submission/make-submission/<int:application_id>', methods = ['GET' , 'POST'])
 @login_required
@@ -147,7 +143,7 @@ def make_submission(application_id : int) :
             flash('Submission made successfully', 'success')
             return redirect(request.referrer)
         
-        flash('Invalid submission', 'danger')
+        flash('Invalid submission', 'error')
         return redirect(request.referrer)
     return render_template('jobs/make_submission.html' , user = current_user ,app = app )
 
