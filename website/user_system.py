@@ -4,7 +4,7 @@ from . import db
 from .singelton_meta import SingletonMeta
 
 class UserSystem(metaclass=SingletonMeta) :
-    lisiteners = []
+    listeners = []
     def __init__(self,db) -> None:
         self.db = db
 

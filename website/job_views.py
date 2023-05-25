@@ -46,7 +46,7 @@ def post_job():
         print(file)
         job_deadline = datetime.strptime(job_deadline, '%Y-%m-%d' )
         if file.filename :
-            if not FileManager.CheckExtension(file) :
+            if not FileManager.IsImage(file) :
                 flash('Invalid file type', 'error')
                 return render_template('Jobs/post_job.html' ,user = current_user)
         else :

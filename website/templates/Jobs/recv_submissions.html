@@ -14,7 +14,7 @@
         <p class="card-text">{{ sub.sub_date }}</p>
         <div class="row">
           <div class="col-md-3">
-            <a href="{{ url_for('profile_views.view_profile', id=sub.application.user.id) }}" class="btn btn-primary">{{sub.application.user.first_name}}</a>
+            <a href="{{ url_for('profile_views.view_profile', id=sub.application.user.id) }}" class="card-title">{{sub.application.user.first_name}}</a>
           </div>
           <div class="col-md-4">
             <a  method="GET" enctype="multipart/form-data" href="{{ url_for('job_views.download_file' ,submission_id = sub.id ) }}">

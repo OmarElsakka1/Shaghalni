@@ -154,5 +154,5 @@ class JobSystem(metaclass=SingletonMeta) :
     
 
 jobSystem = JobSystem(db)
-userSystem.lisiteners.append(jobSystem)   # add the jobSystem to the userSystem listeners
+userSystem.listeners.append(jobSystem)   # add the jobSystem to the userSystem listeners
 
