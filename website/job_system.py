@@ -91,7 +91,7 @@ class JobSystem(metaclass=SingletonMeta) :
                 print("User not authorized to delete job")
                 return False
             job_id  = job.id
-            self.db.session.delete(job)
+            Job.query.filter_by(id = id).delete()
             self.db.session.commit()
             for listener in self.listeners :
                 listener.OnJobDeleted(job_id)

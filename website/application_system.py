@@ -48,6 +48,12 @@ class ApplicationsSystem(metaclass=SingletonMeta):
 
     def DeleteApplication(self , application_id : int) -> bool :
         try :
+            deleted_app = JobApplication.query.filter_by(id = application_id).first()
+            if not deleted_app :
+                return False
+            for listener in self.listeners :
+                    listener.OnAppDeleted(deleted_app.id)
+            deleted_app.delete()
             application = JobApplication.query.filter_by(id = application_id).first()
             application.delete()
             self.db.session.commit()
@@ -59,13 +65,15 @@ class ApplicationsSystem(metaclass=SingletonMeta):
         return JobApplication.query.filter_by(user_id = user_id).all()
 
     def OnJobDeleted(self , job_id : int) -> None :
+        '''
+            Deletes all applications for the given job
+        '''
         try : 
-            deleted_app =  JobApplication.query.filter_by(job_id = job_id).first()
-            if deleted_app :
-                for listener in self.listeners :
-                    listener.OnAppDeleted(job_id)
-            deleted_app.delete()
-            self.db.session.commit()
+            deleted_apps =  JobApplication.query.filter_by(job_id = job_id).all()
+            if deleted_apps :
+                for  deleted_app in deleted_apps :
+                    self.DeleteApplication(application_id= deleted_app.id)
+            
         except :
             print("No applications to delete")
     

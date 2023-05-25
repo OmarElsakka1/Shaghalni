@@ -61,6 +61,7 @@ def dashboard():
     usertype_counts_df = usertype_counts.to_frame().reset_index()
 
     gender_counts = df['gender'].value_counts()
+    print(gender_counts)
     try:
         # Plot the counts using matplotlib
         gender_counts.plot(kind='bar')
@@ -75,6 +76,7 @@ def dashboard():
         plt.title('User Types Counts')
         plt.savefig('instance/Statistics/UserDistribution.png')
     except BaseException:
+        print("Error happened")
         pass
 
     return render_template(

@@ -35,7 +35,7 @@ class UserSystem(metaclass=SingletonMeta) :
             db.session.commit()
             return True
         return False
-
+    
     def DeleteUser(self, user_id : int) -> bool :
         '''
         Deletes the user with the given id.
@@ -43,7 +43,8 @@ class UserSystem(metaclass=SingletonMeta) :
         user = User.query.get(user_id)
         if user == None :
             return False
-        self.db.session.delete(user)
+        
+        User.query.filter_by(id = user_id).delete()
         self.db.session.commit()
         for listener in self.listeners :
             listener.OnUserDeleted(user_id)
